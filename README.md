@@ -1,100 +1,1169 @@
-# 🧙 Wize Wizard v0.3
+# 🧙 Wize Wizard
 
-A keyboard-first Textual strategy, uncertainty, communications, and execution journal.
+> **Strategy • PERT • Execution**
 
-## Structured grammar
+**Wize Wizard** is a terminal-based strategic planning, decision-analysis, and execution system built with Python, Textual, and SQLite.
 
-Every strategy statement, automatic Why, and manually added task uses:
+It combines structured strategic questioning, recursive Why analysis, PERT estimation, uncertainty ranges, stress-aware planning, communication-complexity analysis, task management, Clay Tablets, journaling, and project reporting inside a keyboard-friendly TUI.
+
+The core idea is simple:
+
+> **Turn strategy into structured reasoning, structured reasoning into measurable tasks, and measurable tasks into execution.**
+
+---
+
+## ✨ Features
+
+### 🧠 Structured Strategy
+
+Wize Wizard guides strategic planning through five core questions:
+
+1. 🏆 **What is Winning?**
+2. 🎯 **Where Will I Play?**
+3. 🛠️ **What Tools Do I Need?**
+4. 🧠 **What Skills Do I Need?**
+5. ⚙️ **What Management Systems Do I Need?**
+
+Every strategic statement follows a consistent grammar:
 
 ```text
-As a ______________________  [optional]
-I need to __________________
-so that I can ______________
-because ____________________ [optional]
+As a ____________________________   [optional]
+
+I need to _______________________
+so that I can ___________________
+because _________________________   [optional]
 ```
 
-Users **do not choose** Need / Want / Wish / Dream. For each Lafley question, Wize Wizard advances the ladder automatically in the background:
+This creates structured records instead of disconnected journal entries.
 
-`Initial Need → Want → Wish → Dream`
+---
 
-Each saved strategy statement is automatically copied into the linked project task list. `because` statements are also linked into **Clay Tablets**.
+## 🔍 Structured Why Analysis
 
-## Lafley questions
+Each strategy question automatically progresses through deeper levels of reasoning.
 
-- What is Winning?
-- Where Will I Play?
-- What Tools Do I Need?
-- What Skills Do I Need?
-- What Management Systems Do I Need?
+The user does **not** manually choose the level.
 
-## PERT and stress
+Wize Wizard manages the hierarchy internally:
 
-Full PERT now accepts **Best Case / Worst Case** values and automatically calculates **Most Likely = Best Case + 50%**. The Most Likely field is shown but locked so the user does not need to enter it manually.
+```text
+Initial Need
+     ↓
+Want
+     ↓
+Wish
+     ↓
+Dream
+```
 
-A separate **Best Case Only** tab supports sparse input. Its documented planning heuristic is:
+Every level still uses the same structured grammar:
 
-- best = user input
-- worst = `2 × best`
-- most likely = midpoint of best and worst
+```text
+As a ___
 
-The app then calculates the weighted PERT mean, sigma, Wize Wizard 2σ aggressive/high-stress point, 3σ low-stress allowance, a 3-point vs 6-point recommendation, and a detailed confidence-ratio sentence.
+I need to ___
+so that I can ___
+because ___
+```
 
-The sparse-input method is explicitly a heuristic, not measured statistical variance.
+### Example
 
-## Communications
+```text
+INITIAL NEED
 
-The Communications tab has a dedicated **Run Communications Report** action using:
+As a software engineer,
 
-`n(n-1)/2`
+I need to automate application deployment
+so that I can release software consistently
+because manual deployment introduces unnecessary variance.
+```
 
-It reports raw communication lines, suggested grouping, internal lines, lead-to-lead lines, structured total, line reduction, percentage reduction, and a recommendation.
+Then:
 
-## Reports
+```text
+WANT
 
-The Reports / Charts tab currently generates terminal-native project Gantt/stress bars and PERT range summaries from saved estimates. All underlying data is persisted and exported.
+I need to standardize the deployment pipeline
+so that I can make releases repeatable
+because repeatability reduces operational uncertainty.
+```
 
-## Install
+Then:
+
+```text
+WISH
+
+I need to make infrastructure reproducible
+so that I can recover and scale systems predictably
+because infrastructure should behave as an engineered system.
+```
+
+Then:
+
+```text
+DREAM
+
+I need to create self-managing delivery systems
+so that I can focus on architecture instead of repetitive operations
+because automation should increase strategic leverage.
+```
+
+---
+
+## 🏺 Clay Tablets
+
+Optional `because` statements are preserved in **Clay Tablets**.
+
+Clay Tablets act as a project's reasoning and principles ledger.
+
+A statement can therefore exist simultaneously as part of:
+
+```text
+Strategy
+   │
+   ├── Need / Want / Wish / Dream
+   │
+   ├── Task
+   │
+   └── Clay Tablet
+```
+
+This makes it possible to retain not only **what** was decided, but **why** it was decided.
+
+---
+
+## ✅ Automatic Task Generation
+
+Strategic statements can automatically become project tasks.
+
+Additional manually created tasks follow the same Wize grammar:
+
+```text
+As a ____________________________
+
+I need to _______________________
+so that I can ___________________
+because _________________________
+```
+
+This creates traceability from strategy to execution.
+
+Conceptually:
+
+```text
+DREAM
+  │
+  ▼
+WISH
+  │
+  ▼
+WANT
+  │
+  ▼
+NEED
+  │
+  ▼
+TASK
+  │
+  ▼
+PERT
+  │
+  ▼
+EXECUTION
+```
+
+---
+
+# 📐 PERT / Stress Analysis
+
+Wize Wizard includes PERT-based schedule estimation with an additional planning-envelope interpretation.
+
+The standard weighted PERT estimate is:
+
+```text
+Expected Time = (Best + 4 × Most Likely + Worst) / 6
+```
+
+Standard deviation is estimated as:
+
+```text
+σ = (Worst - Best) / 6
+```
+
+---
+
+## ⏱️ Time Dimensions
+
+PERT estimates can use multiple units:
+
+```text
+Minutes
+Hours
+Days
+Weeks
+Months
+```
+
+This allows the same analysis model to work for small operational tasks or long strategic projects.
+
+---
+
+## 📊 Best, Most Likely, and Pessimistic Estimates
+
+When both Best and Pessimistic estimates are supplied:
+
+```text
+Best Case = user supplied
+Worst Case = user supplied
+
+Most Likely = midpoint(Best, Worst)
+```
+
+Example:
+
+```text
+Best Case:       5 hours
+Pessimistic:    20 hours
+
+Most Likely:
+
+(5 + 20) / 2 = 12.5 hours
+```
+
+PERT then applies its weighted calculation:
+
+```text
+(5 + 4×12.5 + 20) / 6
+
+= 12.5 hours
+```
+
+---
+
+## 🧮 Missing Pessimistic Estimate
+
+Sometimes only the Best Case is known.
+
+Wize Wizard can create a planning estimate using:
+
+```text
+Pessimistic = Best Case × 2
+```
+
+Then:
+
+```text
+Most Likely =
+(Best + Pessimistic) / 2
+```
+
+For example:
+
+```text
+Best Case = 10 hours
+
+Derived Pessimistic:
+10 × 2 = 20 hours
+
+Most Likely:
+(10 + 20) / 2 = 15 hours
+```
+
+⚠️ **Important:** A derived pessimistic estimate is a planning heuristic. It is not the same as collecting an independently estimated pessimistic value.
+
+Wize Wizard identifies derived estimates in its reports.
+
+---
+
+# 📈 Sigma Planning Envelopes
+
+Wize Wizard reports three uncertainty levels based on the calculated PERT sigma:
+
+```text
+1σ ≈ 68%
+2σ ≈ 95%
+3σ ≈ 99.7%
+```
+
+The Wize planning model expands these ranges outward from the **Best and Worst boundaries**.
+
+### 1σ / ~68%
+
+```text
+Lower = Best - σ
+Upper = Worst + σ
+```
+
+### 2σ / ~95%
+
+```text
+Lower = Best - 2σ
+Upper = Worst + 2σ
+```
+
+### 3σ / ~99.7%
+
+```text
+Lower = Best - 3σ
+Upper = Worst + 3σ
+```
+
+Time cannot fall below zero, so:
+
+```text
+Lower = max(0, calculated lower value)
+```
+
+---
+
+## 🧪 Example Sigma Analysis
+
+Suppose:
+
+```text
+Best Case = 5 hours
+Worst Case = 20 hours
+```
+
+Then:
+
+```text
+σ = (20 - 5) / 6
+
+σ = 2.5 hours
+```
+
+Wize Wizard produces:
+
+```text
+~68% / 1σ
+
+5 - 2.5 → 20 + 2.5
+
+2.5 → 22.5 hours
+```
+
+```text
+~95% / 2σ
+
+5 - 5 → 20 + 5
+
+0 → 25 hours
+```
+
+```text
+~99.7% / 3σ
+
+5 - 7.5 → 20 + 7.5
+
+0 → 27.5 hours
+```
+
+The lower boundary is clamped to zero:
+
+```text
+max(0, Best - nσ)
+```
+
+---
+
+## 😌 Stress-Aware Planning
+
+Wize Wizard uses the estimate envelope as a schedule-pressure aid.
+
+A tighter schedule provides less temporal cushion.
+
+A larger upper allowance provides more schedule flexibility.
+
+Conceptually:
+
+```text
+AGGRESSIVE
+    │
+    │  Greater schedule pressure
+    ▼
+
+Expected
+    │
+    ├──── 1σ
+    │
+    ├──────── 2σ
+    │
+    └──────────── 3σ
+
+                     LOW-STRESS
+                     PLANNING EDGE
+```
+
+The 3σ upper boundary represents the largest displayed planning cushion:
+
+```text
+Worst + 3σ
+```
+
+This is a **Wize Wizard planning interpretation**, not a claim that a task is guaranteed to finish inside that interval.
+
+---
+
+# 🎯 Estimate Severity
+
+Wize Wizard evaluates estimate uncertainty and recommends an appropriate estimation depth.
+
+Possible recommendations include:
+
+```text
+3-point estimation
+```
+
+or:
+
+```text
+6-point estimation
+```
+
+Higher uncertainty, wider estimate spreads, or greater project severity can justify deeper estimation.
+
+The goal is not simply to calculate a duration.
+
+The goal is to understand:
+
+```text
+Duration
++
+Uncertainty
++
+Schedule pressure
++
+Planning cushion
+```
+
+---
+
+# 📊 Reports / Charts
+
+PERT records are stored with their associated project.
+
+The Reports / Charts section can use those records to generate terminal-native project visualizations.
+
+Examples include:
+
+### 📅 Stress-Aware Gantt View
+
+```text
+Architecture          ▓▓▓▓▓▓░░░░
+Database              ▓▓▓▓▓▓▓▓░░░░
+Testing               ▓▓▓▓▓░░░░░
+Deployment            ▓▓▓░░░
+```
+
+Where:
+
+```text
+▓ = expected duration
+░ = additional planning cushion
+```
+
+---
+
+## 📦 Range Visualization
+
+PERT ranges can also be represented as:
+
+```text
+Best
+ │
+ ├──────── Most Likely
+ │               │
+ │               ├──────── Worst
+ │
+ └────────────────────────────── 1σ
+ └────────────────────────────────── 2σ
+ └────────────────────────────────────── 3σ
+```
+
+This provides a visual representation of increasing schedule uncertainty.
+
+---
+
+# 👥 Communication Complexity
+
+Wize Wizard includes communication-channel analysis using:
+
+```text
+n(n - 1)
+────────
+   2
+```
+
+where `n` is the number of people who may communicate directly with one another.
+
+---
+
+## 🧮 Example
+
+For a 20-person team:
+
+```text
+20 × 19
+───────
+   2
+
+= 190
+```
+
+That means there are potentially:
+
+```text
+190 communication channels
+```
+
+in a fully connected 20-person group.
+
+---
+
+# 🧩 Team Decomposition
+
+Wize Wizard does more than display the raw communication count.
+
+It can suggest breaking a large group into smaller units.
+
+Example:
+
+```text
+20 people
+```
+
+might become:
+
+```text
+Team A — 5
+Team B — 5
+Team C — 5
+Team D — 5
+```
+
+Internal channels per five-person group:
+
+```text
+5 × 4 / 2 = 10
+```
+
+Four teams:
+
+```text
+10 × 4 = 40
+```
+
+If four team leads communicate:
+
+```text
+4 × 3 / 2 = 6
+```
+
+Structured total:
+
+```text
+40 + 6 = 46 channels
+```
+
+Compared with:
+
+```text
+Unstructured: 190
+Structured:    46
+```
+
+Potential reduction:
+
+```text
+144 communication relationships
+```
+
+or approximately:
+
+```text
+75.8%
+```
+
+This turns the communications formula into an organizational-design tool.
+
+---
+
+# 📉 Task Burndown
+
+Wize Wizard tracks project execution through its task system.
+
+Tasks can progress through statuses such as:
+
+```text
+Backlog
+Ready
+Active
+Blocked
+Done
+```
+
+The project can then display terminal-native burndown information.
+
+Conceptually:
+
+```text
+Tasks
+
+30 │●
+27 │  ●
+24 │    ●
+21 │       ●
+18 │          ●
+15 │             ●
+12 │                 ●
+ 9 │                    ●
+ 6 │                       ●
+ 3 │                          ●
+ 0 └────────────────────────────
+```
+
+---
+
+# 📓 Journal
+
+Wize Wizard includes a project journal for recording:
+
+- 🧠 Decisions
+- 📊 Estimation observations
+- ⚠️ Risks
+- 🛠️ Implementation notes
+- 🔄 Strategy changes
+- 📈 Outcomes
+- 🧪 Experiments
+- 📝 Retrospectives
+
+The long-term goal is to connect planning assumptions with actual results.
+
+For example:
+
+```text
+Estimated: 6 hours
+Actual:    9 hours
+Variance:  +3 hours
+```
+
+Historical information can eventually improve future estimation.
+
+---
+
+# 🗂️ Project Mode
+
+Wize Wizard's major features are modular, but they can also operate together under a project.
+
+```text
+PROJECT
+│
+├── Strategy
+│
+├── Structured Whys
+│
+├── Wants
+│
+├── Wishes
+│
+├── Dreams
+│
+├── Tasks
+│
+├── PERT
+│
+├── Sigma Analysis
+│
+├── Communications
+│
+├── Reports / Charts
+│
+├── Clay Tablets
+└── Journal
+```
+
+Records share project associations so related information can be grouped, analyzed, and exported together.
+
+---
+
+# 🧰 Modular Mode
+
+Individual tools can also be used independently.
+
+For example, you can use:
+
+```text
+PERT
+```
+
+without completing an entire strategic analysis.
+
+Likewise:
+
+```text
+Communications
+```
+
+can be used as a standalone organizational-complexity calculator.
+
+This gives Wize Wizard two operating philosophies:
+
+```text
+MODULAR MODE
+Use the tool you need.
+```
+
+and:
+
+```text
+PROJECT MODE
+Connect strategy → analysis → execution.
+```
+
+---
+
+# 🏗️ Architecture
+
+Wize Wizard is intentionally lightweight.
+
+Core technologies:
+
+- 🐍 **Python**
+- 🖥️ **Textual**
+- 🗃️ **SQLite**
+- 📦 **Python packaging**
+- 🧪 **PERT analysis**
+- 📊 **Terminal-native reporting**
+
+The application does not require a large external database server.
+
+Project information is persisted locally using SQLite.
+
+---
+
+# 🗄️ Database
+
+The local database is stored under the user's application-data directory.
+
+Typical location:
+
+```text
+~/.local/share/wize-wizard/wize.db
+```
+
+The database stores project-related information such as:
+
+```text
+Projects
+Strategies
+Why statements
+Clay Tablets
+Tasks
+PERT estimates
+Communication analyses
+Journal entries
+```
+
+---
+
+# 📤 Export
+
+Wize Wizard is designed around portable project data.
+
+Supported or planned export formats include:
+
+```text
+JSON
+CSV
+Markdown
+```
+
+A project can therefore be represented outside the application for reporting, analysis, backup, or integration with other tools.
+
+A complete project structure may contain:
+
+```text
+project-export/
+├── project.md
+├── strategy.md
+├── tasks.csv
+├── pert.csv
+├── communications.csv
+├── clay-tablets.md
+├── journal.md
+└── project.json
+```
+
+---
+
+# 🚀 Installation
+
+## Install from PyPI
+
+Once published:
 
 ```bash
-cd wize-wizard
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -U pip
-pip install -e .
+pip install wize-wizard
+```
+
+Launch:
+
+```bash
 wize-wizard
 ```
 
-Database: `~/.local/share/wize-wizard/wize.db`
+---
 
-Press `Ctrl+E` to export the entire current project to `./wize-exports/<project-name>/` as CSV, JSON, and Markdown.
+## 🧪 Recommended Virtual Environment
 
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install wize-wizard
+wize-wizard
+```
 
-## v0.3 interaction fixes
+---
 
-- Most Likely is calculated as the midpoint of Best and Pessimistic. If Pessimistic is blank, Wize Wizard derives Pessimistic = 2×Best first.
-- Pessimistic/Worst Case is optional: user-supplied values are honored; blank values use the documented 2×Best heuristic.
-- START PERT REPORT calculates even without a selected project; an active project additionally saves the report.
-- PERT output explains Best, Most Likely, Worst, range, weighted mean, sigma, Wize 2σ high-stress point, Wize 3σ low-stress allowance, severity, estimate-depth recommendation, confidence, and the range/box visualization.
-- START COMMUNICATIONS REPORT calculates even without a selected project and now shows the complete n(n−1)/2 substitution, grouping model, internal channels, lead channels, reduction count, reduction percentage, and management interpretation.
-- Best Case Only remains available as the separate sparse-input heuristic using Worst = 2×Best and Most Likely = midpoint.
+# 💻 Install From Source
 
+Clone the repository:
 
-## v0.4 PERT ranges
-PERT reports now include approximate 68% (±1σ), 95% (±2σ), and 99.7% (±3σ) planning bands and explicitly show each upper allowance as expected time + sigma multiple. Each major TUI page also includes expanded usage instructions.
+```bash
+git clone git@github.com:iamrichmack111/wize-wizard.git
+```
 
-## v0.5 PERT envelope correction
+Enter the repository:
 
-Wize Wizard keeps standard three-point PERT for the expected duration and sigma:
+```bash
+cd wize-wizard
+```
 
-- Expected = (Best + 4×Most Likely + Worst) / 6
-- Sigma = (Worst − Best) / 6
+Create a virtual environment:
 
-The Wize planning envelopes expand outward from the full Best/Worst range:
+```bash
+python3 -m venv .venv
+```
 
-- 68% / 1σ: max(0, Best − σ) to Worst + σ
-- 95% / 2σ: max(0, Best − 2σ) to Worst + 2σ
-- 99.7% / 3σ: max(0, Best − 3σ) to Worst + 3σ
+Activate it:
 
-No lower planning bound is allowed below zero. The maximum low-stress value is Worst + 3σ.
+```bash
+source .venv/bin/activate
+```
 
-PERT reports are always persisted. If no project is selected, the app creates a Quick Analysis project automatically so Reports / Charts can immediately rebuild from the saved PERT record.
+Upgrade pip:
+
+```bash
+python -m pip install --upgrade pip
+```
+
+Install:
+
+```bash
+pip install -e .
+```
+
+Launch:
+
+```bash
+wize-wizard
+```
+
+---
+
+# 🧪 Development
+
+Install build and test tools:
+
+```bash
+python -m pip install -U build pytest twine
+```
+
+Compile-check:
+
+```bash
+python -m compileall -q .
+```
+
+Run tests:
+
+```bash
+pytest -q
+```
+
+Build distributions:
+
+```bash
+rm -rf dist build *.egg-info
+python -m build
+```
+
+Validate distributions:
+
+```bash
+python -m twine check dist/*
+```
+
+---
+
+# 📦 Packaging
+
+A successful build should create:
+
+```text
+dist/
+├── wize_wizard-X.Y.Z-py3-none-any.whl
+└── wize_wizard-X.Y.Z.tar.gz
+```
+
+Test the wheel in a clean environment:
+
+```bash
+python3 -m venv /tmp/wize-test
+source /tmp/wize-test/bin/activate
+pip install dist/*.whl
+wize-wizard
+```
+
+---
+
+# ⚙️ CI/CD
+
+Wize Wizard supports automated publishing through GitHub Actions and PyPI Trusted Publishing.
+
+Example release flow:
+
+```text
+Development
+     │
+     ▼
+Git Commit
+     │
+     ▼
+GitHub
+     │
+     ▼
+Version Tag
+     │
+     ▼
+GitHub Release
+     │
+     ▼
+GitHub Actions
+     │
+     ├── Build wheel
+     ├── Build source distribution
+     └── Publish
+             │
+             ▼
+            PyPI
+```
+
+The publishing workflow lives at:
+
+```text
+.github/workflows/publish.yml
+```
+
+---
+
+# 🏷️ Release Workflow
+
+Example:
+
+```bash
+git add -A
+git commit -m "Release Wize Wizard"
+git push
+```
+
+Create a version tag:
+
+```bash
+git tag -a v0.5.1 -m "Wize Wizard v0.5.1"
+git push origin v0.5.1
+```
+
+Create the GitHub Release:
+
+```bash
+gh release create v0.5.1 \
+  --title "Wize Wizard v0.5.1" \
+  --generate-notes
+```
+
+Monitor CI/CD:
+
+```bash
+gh run list --workflow=publish.yml --limit 5
+```
+
+---
+
+# 🔬 Design Philosophy
+
+Wize Wizard treats planning as a connected system.
+
+A strategic decision should not disappear after it is written.
+
+Instead:
+
+```text
+IDENTITY
+   ↓
+STRATEGY
+   ↓
+WHY
+   ↓
+WANT
+   ↓
+WISH
+   ↓
+DREAM
+   ↓
+TASK
+   ↓
+ESTIMATE
+   ↓
+UNCERTAINTY
+   ↓
+SCHEDULE
+   ↓
+EXECUTION
+   ↓
+REFLECTION
+```
+
+The objective is **traceability**.
+
+At any point, a user should eventually be able to answer:
+
+> **Why am I doing this task?**
+
+and trace the answer back through the strategy that created it.
+
+---
+
+# 🗺️ Roadmap
+
+Planned improvements include:
+
+- 🧙 Guided full-project Wizard
+- 📊 Richer terminal charts
+- 📅 Dependency-aware Gantt planning
+- 📉 Weighted burndown
+- 🧮 Historical estimation accuracy
+- 🔄 Estimated vs. actual duration analysis
+- 🎯 Strategy-to-task traceability
+- 🏺 Clay Tablet pattern discovery
+- 🔍 Project-wide search
+- 📑 Rich project reports
+- 📤 Expanded export formats
+- 🧠 Estimation-bias analysis
+- ⚠️ Risk and dependency modeling
+- 👥 More advanced team decomposition
+- ⌨️ Expanded keyboard-first navigation
+
+---
+
+# ⚠️ Statistical Note
+
+PERT and sigma calculations are planning tools.
+
+The familiar:
+
+```text
+68%
+95%
+99.7%
+```
+
+values originate from the empirical rule for normally distributed observations.
+
+Wize Wizard's outward expansion from:
+
+```text
+Best - nσ
+```
+
+through:
+
+```text
+Worst + nσ
+```
+
+is a **Wize Wizard planning-envelope model** layered on top of the PERT estimates.
+
+It should therefore be interpreted as a decision-support and schedule-cushion framework rather than a guarantee that a task has exactly a stated probability of completing within a given boundary.
+
+---
+
+# 🔐 Data Philosophy
+
+Wize Wizard is designed as a local-first terminal application.
+
+SQLite provides a lightweight persistence layer without requiring a separate database server.
+
+Users remain able to export their project information into portable formats.
+
+---
+
+# 🤝 Contributing
+
+Issues, feature requests, testing, and pull requests are welcome.
+
+When contributing:
+
+```bash
+git checkout -b feature/my-feature
+```
+
+Make and test your changes:
+
+```bash
+python -m compileall -q .
+pytest -q
+```
+
+Commit:
+
+```bash
+git add -A
+git commit -m "Add my feature"
+```
+
+Push:
+
+```bash
+git push -u origin feature/my-feature
+```
+
+Then open a pull request.
+
+---
+
+# 📜 License
+
+Check the repository's `LICENSE` file for the current licensing terms.
+
+---
+
+# 🧙 Wize Wizard
+
+```text
+╔══════════════════════════════════════════════╗
+║                 WIZE WIZARD                  ║
+║                                              ║
+║        Strategy • PERT • Execution           ║
+║                                              ║
+║   I need to __________________________       ║
+║   so that I can ______________________       ║
+║   because ____________________________       ║
+║                                              ║
+║              Strategy → Action               ║
+╚══════════════════════════════════════════════╝
+```
+
+**Build the strategy. Understand the uncertainty. Execute the plan.**
+
