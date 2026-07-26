@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 readme = "README.md"
 name = "wize-wizard"
-version = "0.5.0"
+version = "0.5.1"
 description = "Terminal strategy, PERT, communications, task, and journal planner"
 requires-python = ">=3.10"
 dependencies = ["textual>=0.70", "rich>=13.7"]
