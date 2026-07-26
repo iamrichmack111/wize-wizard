@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wize-wizard"
+version = "0.5.0"
+description = "Terminal strategy, PERT, communications, task, and journal planner"
+requires-python = ">=3.10"
+dependencies = ["textual>=0.70", "rich>=13.7"]
+
+[project.scripts]
+wize-wizard = "wize_wizard.app:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["wize_wizard"]
