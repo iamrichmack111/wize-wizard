@@ -3,6 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
+readme = "README.md"
 name = "wize-wizard"
 version = "0.5.0"
 description = "Terminal strategy, PERT, communications, task, and journal planner"
