@@ -1,3 +1,33 @@
+<<<<<<< HEAD
+=======
+# Wize Wizard v0.7.2 — Guided Strategy Learning + Original Core
+
+Wize Wizard is a GUI + terminal strategy workbench designed for a user who may **not yet know what to do**. It preserves the original Wize mechanics and adds a guided learning layer around them.
+
+The primary flow is:
+
+```text
+Learn (when needed)
+  → Five Strategic Questions
+  → I need to ___ so that I can ___
+  → WHY? Wish → WHY? Dream → WHY? Fantasy
+  → Need becomes the Goal
+  → Original PERT / Stress assessment
+  → Tasks / execution
+  → Managed communications + supervisors
+  → Market / finance / risk / operations analysis as needed
+  → Clay Tablets + Journal
+  → Final Project Plan and Scope
+  → Repeat after execution
+```
+
+Every guided lesson spells out acronyms in full, explains the question the concept answers, provides plain-English meaning, a worked example, limitations, an interactive browser animation, and a corresponding Manim scene for production rendering. The bundled Strategy Handbook can be read inside the app. The **Final Project Plan** combines Goals, connected Whys, PERT ranges, tasks, team design, assumptions, recent learning, readiness gates, and handbook-based decision checks.
+
+Temporary first-run credentials remain `admin` / `admin`; the account is forced to change the password after first login.
+
+---
+
+>>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
 # 🧙 Wize Wizard
 
 > **Strategy • PERT • Execution**
@@ -47,6 +77,7 @@ The user does **not** manually choose the level.
 Wize Wizard manages the hierarchy internally:
 
 ```text
+<<<<<<< HEAD
 Initial Need
      ↓
 Want
@@ -54,6 +85,15 @@ Want
 Wish
      ↓
 Dream
+=======
+Need / Goal
+     ↓ WHY?
+Wish
+     ↓ WHY?
+Dream
+     ↓ WHY?
+Fantasy
+>>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
 ```
 
 Every level still uses the same structured grammar:
@@ -121,7 +161,11 @@ A statement can therefore exist simultaneously as part of:
 ```text
 Strategy
    │
+<<<<<<< HEAD
    ├── Need / Want / Wish / Dream
+=======
+   ├── Need / Wish / Dream / Fantasy
+>>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
    │
    ├── Task
    │
@@ -1167,3 +1211,119 @@ Check the repository's `LICENSE` file for the current licensing terms.
 
 **Build the strategy. Understand the uncertainty. Execute the plan.**
 
+<<<<<<< HEAD
+=======
+
+---
+
+# 🌐 Production GUI + Learning Course
+
+Wize Wizard now includes a Flask-based web GUI while preserving the original Textual TUI.
+
+## Quick start
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+export WIZE_SECRET_KEY="$(python -c 'import secrets; print(secrets.token_hex(32))')"
+wize-wizard-web
+```
+
+Open `http://127.0.0.1:8080`.
+
+**Temporary first login:** `admin` / `admin`. The account is flagged to require an immediate password change.
+
+## GUI modules
+
+### Original Wize core — preserved
+
+The GUI is an extension of the original Textual workflow, not a replacement for it. The `wize-wizard` command still launches the original TUI. The `wize-wizard-web` command launches the GUI, where the original core now has first-class pages for:
+
+- Lafley five-question Strategy + Whys workflow
+- Automatic `Initial Need → Want → Wish → Dream` progression
+- Structured `[As a ___,] I need to ___ so that I can ___ [because ___]` grammar
+- Dedicated 5 Whys root-cause drill
+- Original PERT / stress report and Best × 2 sparse-input heuristic
+- Tasks / burndown with strategy-linked tasks
+- Communications channel analysis
+- Clay Tablets reasoning ledger
+- Project journal and PERT reports
+
+The learning course, Manim scenes, market/finance tools and Monte Carlo lab complement those workflows by explaining what the concepts mean, when to use them and why.
+
+### Supporting strategy / learning modules
+
+- Home command center with D2 architecture
+- Guided learning course with plain-English explanations, actual process steps, formulas, worked examples, limitations and quizzes
+- Strategy assumption lab
+- Market Structure Lab for CR4 and HHI
+- Value Creation Lab for ROIC, WACC and Economic Profit
+- Monte Carlo risk lab
+- Admin-only user management and self-service password changes
+- CSRF protection, password hashing, security headers, SQLite WAL mode and health endpoint
+
+## Manim animations
+
+Manim is optional because it can require system-level multimedia dependencies.
+
+```bash
+pip install -e '.[animation]'
+python scripts/render_lessons.py
+```
+
+Source scenes live in `animations/strategy_lessons.py`. The GUI remains fully usable without rendered videos and shows an instructional animation module placeholder.
+
+## D2
+
+The home architecture source is:
+
+```text
+wize_wizard/static/diagrams/home.d2
+```
+
+If D2 is installed, render it with:
+
+```bash
+d2 wize_wizard/static/diagrams/home.d2 wize_wizard/static/diagrams/home.svg
+```
+
+## Docker
+
+```bash
+cp .env.example .env
+# replace WIZE_SECRET_KEY with a long random value
+docker compose up --build -d
+curl http://127.0.0.1:8080/healthz
+```
+
+For TLS behind a reverse proxy, set `WIZE_SECURE_COOKIE=1`.
+
+
+## v0.7.2 design pass
+The web UI uses a Fibonacci spacing scale (5/8/13/21/34/55px) and golden-ratio 61.8/38.2 content layouts to reduce visual density. The Monte Carlo lab is simplified to estimate + uncertainty + impact, with plain-language Typical/Safer/Very cautious outputs.
+
+## RichmackOS one-command deployment
+
+For the production `wizard.richmackos.com` deployment, install the Mac-side helper once:
+
+```bash
+./scripts/install-wizard-command.sh
+```
+
+Then deploy with:
+
+```bash
+wizard
+```
+
+The helper uses `ssh -T`, keepalives, reconnect/retry logic, and post-command health verification so a transient SSH/terminal disconnect is not automatically treated as an application deployment failure. See `docs/RICHMACKOS_DEPLOY.md`.
+
+## Production hardening
+
+This build ships with CI, CodeQL, Bandit, pip-audit, Trivy, Dependabot, Docker
+build validation, a private-repository bootstrap path, and RichmackOS continuous
+deployment. The Mac-side `wizard` command performs Git/GitHub bootstrap before
+it touches production, then deploys to `wizard.richmackos.com` using the
+localhost-container + Nginx pattern.
+>>>>>>> 034f4b1 (Harden Wize Wizard production baseline)

@@ -1,0 +1,22 @@
+services:
+  wizard:
+    build: .
+    container_name: wizard
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      WIZE_HOST: 0.0.0.0
+      WIZE_PORT: 8080
+      WIZE_DB_PATH: /data/wize.db
+      WIZE_SECURE_COOKIE: "1"
+    ports:
+      - "127.0.0.1:5080:8080"
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/healthz', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 4

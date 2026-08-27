@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block heading %}Team Communication & Management{% endblock %}
+{% block content %}
+{% include '_project_bar.html' %}
+
+<section class="focus-layout">
+  <form class="panel calm-panel" method="post">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <input type="hidden" name="project_id" value="{{project_id or ''}}">
+    <span class="kicker">STEP 1 · TEAM SIZE</span>
+    <h2>How many people have to coordinate?</h2>
+    <p class="lead-small">Enter the people doing the work. Wize will propose a simple management structure, keep a few stable peer-to-peer relationships, and compare it with everyone talking to everyone.</p>
+    <label>People on the team<input type="number" min="1" name="people" required placeholder="Example: 10"></label>
+    <button class="primary">Build team structure</button>
+  </form>
+
+  <aside class="explain-strip">
+    <span class="kicker">WHY THIS MATTERS</span>
+    <h3>Too many communication lines create noise.</h3>
+    <p>If every person talks directly with every other person, the number of possible relationships grows very quickly. Wize reduces that load without making the group a fragile one-person hub.</p>
+    <p class="small"><b>Raw formula:</b> n × (n − 1) ÷ 2 possible pairwise channels.</p>
+  </aside>
+</section>
+
+{% if result %}
+<section class="panel result-story spacious-result">
+  <span class="kicker">STEP 2 · WIZE TEAM DESIGN</span>
+  <h2>{{result.people}} people → {{result.groups}} working group{{'' if result.groups==1 else 's'}}</h2>
+  <p class="big-explanation">Wize assigns <b>{{result.local_managers}} Manager{{'' if result.local_managers==1 else 's'}}</b> and <b>{{result.product_leaders}} Product Lead{{'' if result.product_leaders==1 else 's'}}</b>. It also keeps <b>{{result.stable_pair_channels}} stable contributor pair{{'' if result.stable_pair_channels==1 else 's'}}</b> so the group still has useful peer-to-peer continuity.</p>
+
+  <div class="role-flow" aria-label="Suggested management structure">
+    <div><b>{{result.local_managers}}</b><span>Managers</span><small>Own coordination and priorities</small></div>
+    <i>→</i>
+    <div><b>{{result.product_leaders}}</b><span>Product Leads</span><small>Translate priorities into delivery</small></div>
+    <i>→</i>
+    <div><b>{{result.workers}}</b><span>Contributors</span><small>Do the execution work</small></div>
+  </div>
+
+  {% if result.managers %}<div class="callout"><b>Remainder rule:</b> {{result.managers}} leftover person{{'' if result.managers==1 else 's'}} become coordination management above the group Managers, rather than forming an undersized extra team.</div>{% endif %}
+
+  <div class="comparison-line">
+    <div><span>Everyone-to-everyone</span><strong>{{result.channels}} lines</strong></div>
+    <div class="arrow-big">→</div>
+    <div><span>Managed + stable pairs</span><strong>{{result.structured}} lines</strong></div>
+    <div class="reduction-badge">{{'%.1f'|format(result.reduction_pct)}}% fewer</div>
+  </div>
+
+  <details class="quiet-details">
+    <summary>Show how Wize calculated this</summary>
+    <div class="detail-body">
+      <p>{{result.sentence}}</p>
+      <p><b>Management spine:</b> {{result.management_spine}} Manager ↔ Product Lead line(s). <b>Delivery:</b> {{result.delivery_channels}} Product Lead ↔ contributor line(s). <b>Stable pairs:</b> {{result.stable_pair_channels}} contributor peer line(s). <b>Leadership coordination:</b> {{result.supervisor_coordination + result.oversight + result.manager_channels}} line(s).</p>
+      <p class="small">This is a Wize Wizard planning heuristic, not a universal organization-design law. Use it to make roles and communication assumptions visible, then adjust for the actual work.</p>
+    </div>
+  </details>
+</section>
+{% endif %}
+
+<section class="panel calm-panel">
+  <span class="kicker">SAVED LOG</span>
+  <h2>Previous team calculations</h2>
+  <p class="small">Older records are recalculated with the current Manager + Product Lead model, so old zero-manager rows do not survive after the model changes.</p>
+  <div class="history-list">
+  {% for r in history %}
+    <details class="history-item" {% if loop.first %}open{% endif %}>
+      <summary><b>{{r.people}} people</b><span>{{r.local_managers}} Manager · {{r.product_leaders}} Product Lead · {{r.stable_pair_channels}} stable pair · {{r.channels}} → {{r.structured}} lines</span><strong>{{'%.1f'|format(r.reduction_pct)}}% reduction</strong></summary>
+      <p>{{r.sentence}}</p>
+    </details>
+  {% else %}
+    <p>No team calculation has been saved yet.</p>
+  {% endfor %}
+  </div>
+</section>
+{% endblock %}

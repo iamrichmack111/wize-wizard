@@ -1,0 +1,69 @@
+{% extends 'base.html' %}{% block heading %}Monte Carlo Risk Planner{% endblock %}{% block content %}
+<section class="panel accent compact-intro">
+  <span class="kicker">SIMPLE PURPOSE</span>
+  <h2>Turn one estimate into a safer planning range.</h2>
+  <p class="lead">You do <b>not</b> need to understand simulation math. Give Wize your best estimate, tell it how uncertain the work feels, and how serious a delay would be. Wize runs the simulation for you.</p>
+  <div class="actions"><a class="ghost" href="{{url_for('lesson',slug='risk-monte-carlo')}}">See the animated example</a><a class="ghost" href="{{url_for('pert_original')}}">Use original PERT instead</a></div>
+</section>
+
+<div class="golden-grid">
+  <form class="panel" method="post">
+    <span class="kicker">3 THINGS TO TELL WIZE</span>
+    <h2>Plan the uncertainty</h2>
+    <label>1. What is your current best estimate?
+      <input name="estimate" type="number" min="0.01" step="any" required value="{{request.form.get('estimate','10')}}">
+      <small class="field-help">Use the same unit you care about: hours, days, dollars, units, etc.</small>
+    </label>
+    <label>2. How uncertain does this feel?
+      <select name="uncertainty">
+        <option value="low" {% if request.form.get('uncertainty')=='low' %}selected{% endif %}>Low — I understand this work well</option>
+        <option value="medium" {% if request.form.get('uncertainty','medium')=='medium' %}selected{% endif %}>Medium — some things could change</option>
+        <option value="high" {% if request.form.get('uncertainty')=='high' %}selected{% endif %}>High — many unknowns remain</option>
+      </select>
+    </label>
+    <label>3. How serious would an overrun be?
+      <select name="impact">
+        <option value="low" {% if request.form.get('impact')=='low' %}selected{% endif %}>Low — inconvenient, but recoverable</option>
+        <option value="medium" {% if request.form.get('impact','medium')=='medium' %}selected{% endif %}>Medium — would disrupt the plan</option>
+        <option value="high" {% if request.form.get('impact')=='high' %}selected{% endif %}>High — could threaten the project</option>
+      </select>
+    </label>
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <button class="primary">Show me a safer range</button>
+  </form>
+
+  <aside class="panel quiet-panel">
+    <span class="kicker">WHAT WIZE IS DOING</span>
+    <h3>Think of it as 5,000 practice futures.</h3>
+    <p>Wize creates thousands of reasonable versions of the outcome around your estimate. It then shows three planning levels:</p>
+    <div class="plain-legend">
+      <div><b>Typical</b><span>About half of simulated outcomes finish by here.</span></div>
+      <div><b>Safer</b><span>A stronger planning buffer for important work.</span></div>
+      <div><b>Very cautious</b><span>A high-protection plan when failure is costly.</span></div>
+    </div>
+    <p class="small">The technical names are P50, P80 and P95. You can learn those later; you do not need them to use the tool.</p>
+  </aside>
+</div>
+
+{% if result %}
+<section class="panel result-story">
+  <span class="kicker">YOUR PLANNING RANGE</span>
+  <h2>Your estimate was {{'%.2f'|format(result.estimate)}}. Here is how much protection different plans give you.</h2>
+  <div class="risk-bars">
+    <div><span>Typical plan <small>P50</small></span><b>{{'%.2f'|format(result.p50)}}</b><i style="--w:{{result.p50_pct}}%"></i></div>
+    <div><span>Safer plan <small>P80</small></span><b>{{'%.2f'|format(result.p80)}}</b><i style="--w:{{result.p80_pct}}%"></i></div>
+    <div><span>Very cautious <small>P95</small></span><b>{{'%.2f'|format(result.p95)}}</b><i style="--w:{{result.p95_pct}}%"></i></div>
+  </div>
+  <div class="decision-callout"><b>Wize suggestion:</b> {{result.recommendation}}</div>
+</section>
+
+<section class="panel next-step-panel">
+  <span class="kicker">WHAT TO DO NEXT</span>
+  <ol class="steps compact-steps">
+    <li><span>1</span><div><b>Pick the protection level that matches the consequence.</b><p>Routine work can often use Typical. Important work usually needs Safer. Critical work may justify Very cautious.</p></div></li>
+    <li><span>2</span><div><b>Compare it with the original PERT goal.</b><p>If they disagree sharply, your assumptions probably need another look.</p></div></li>
+    <li><span>3</span><div><b>Write down the biggest unknown.</b><p>Put it in Clay Tablets so the final plan explains what could change the estimate.</p></div></li>
+  </ol>
+  <div class="actions"><a class="primary" href="{{url_for('clay_tablets')}}">Record the uncertainty</a><a class="ghost" href="{{url_for('reports')}}">Carry it into the Final Project Plan →</a></div>
+</section>
+{% endif %}{% endblock %}

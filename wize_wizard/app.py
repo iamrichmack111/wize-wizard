@@ -42,11 +42,19 @@ class WizeWizard(App):
             with TabPane("Strategy + Whys"):
                 with ScrollableContainer():
                     yield Static("""HOW TO USE THIS PAGE
+<<<<<<< HEAD
 Choose one Lafley strategy question and write a complete Wize statement. You never select Need, Want, Wish, or Dream yourself; Wize Wizard advances Initial Need → Want → Wish → Dream in the background. Every saved statement becomes a linked task automatically. The optional Because field is also indexed in Clay Tablets.
 
 Required grammar: [As a ___,] I need to ___ so that I can ___ [because ___].""")
                     yield Select([(x, x) for x in LAFLEY], prompt="Lafley question", id="category")
                     yield Static("Next automatic stage: Initial Need", id="why_stage")
+=======
+Choose one Lafley strategy question and write a complete Wize statement. You never select Need, Wish, Dream, or Fantasy yourself; Wize Wizard advances Need → Wish → Dream → Fantasy in the background. Every saved statement becomes a linked task automatically. The optional Because field is also indexed in Clay Tablets.
+
+Required grammar: [As a ___,] I need to ___ so that I can ___ [because ___].""")
+                    yield Select([(x, x) for x in LAFLEY], prompt="Lafley question", id="category")
+                    yield Static("Next automatic stage: Need", id="why_stage")
+>>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
                     yield Input(placeholder="As a... (optional)", id="as_a")
                     yield Input(placeholder="I need to...", id="need")
                     yield Input(placeholder="so that I can...", id="so_that")
@@ -126,7 +134,11 @@ Record observations, actual outcomes, estimation errors, decisions, and lessons 
                 yield Button("Save Journal Entry", id="save_journal")
                 yield DataTable(id="journal_table")
             with TabPane("Course"):
+<<<<<<< HEAD
                 yield Static("# Wize Wizard Course\n\n1. Winning aspiration\n2. Where to play\n3. Tools\n4. Skills\n5. Management systems\n6. Automatic structured Whys: Initial → Want → Wish → Dream\n7. PERT and stress ranges\n8. Sparse-input estimation\n9. Communications complexity\n10. Priority, execution, review, journal, and export", markup=True)
+=======
+                yield Static("# Wize Wizard Course\n\n1. Winning aspiration\n2. Where to play\n3. Tools\n4. Skills\n5. Management systems\n6. Automatic structured Whys: Need → Wish → Dream → Fantasy\n7. PERT and stress ranges\n8. Sparse-input estimation\n9. Communications complexity\n10. Priority, execution, review, journal, and export", markup=True)
+>>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
         yield Footer()
 
     def on_mount(self):

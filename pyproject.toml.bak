@@ -5,26 +5,14 @@ build-backend = "hatchling.build"
 [project]
 readme = "README.md"
 name = "wize-wizard"
-<<<<<<< HEAD
-version = "0.5.1"
-description = "Terminal strategy, PERT, communications, task, and journal planner"
-requires-python = ">=3.10"
-dependencies = ["textual>=0.70", "rich>=13.7"]
-
-[project.scripts]
-wize-wizard = "wize_wizard.app:main"
-
-[tool.hatch.build.targets.wheel]
-packages = ["wize_wizard"]
-=======
-version = "0.7.7"
+version = "0.7.2"
 description = "Strategy learning, decision-analysis, and execution workbench"
 requires-python = ">=3.10"
 dependencies = ["textual>=0.70", "rich>=13.7", "Flask>=3.0", "waitress>=3.0"]
 
 [project.optional-dependencies]
 animation = ["manim>=0.19"]
-dev = ["pytest>=8.0", "build>=1.2"]
+dev = ["pytest>=8.0"]
 
 [project.scripts]
 wize-wizard = "wize_wizard.app:main"
@@ -35,4 +23,3 @@ packages = ["wize_wizard"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
->>>>>>> 034f4b1 (Harden Wize Wizard production baseline)

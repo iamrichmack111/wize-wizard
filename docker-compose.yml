@@ -1,0 +1,13 @@
+services:
+  wize-wizard:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      WIZE_SECRET_KEY: ${WIZE_SECRET_KEY:?Set WIZE_SECRET_KEY in .env}
+      WIZE_SECURE_COOKIE: ${WIZE_SECURE_COOKIE:-0}
+    volumes:
+      - wize-data:/data
+    restart: unless-stopped
+volumes:
+  wize-data:

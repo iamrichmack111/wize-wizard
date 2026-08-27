@@ -1,0 +1,16 @@
+<section class="panel project-bar">
+  <form method="get" class="project-select-form">
+    <label>Active project
+      <select name="project_id" onchange="this.form.submit()">
+        {% if not projects %}<option>No projects yet</option>{% endif %}
+        {% for p in projects %}<option value="{{p.id}}" {% if project_id==p.id %}selected{% endif %}>{{p.name}}</option>{% endfor %}
+      </select>
+    </label>
+  </form>
+  <form method="post" action="{{ url_for('add_project') }}" class="new-project-form">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <label>New project<input name="name" required placeholder="Project name"></label>
+    <label>Description<input name="description" placeholder="Optional"></label>
+    <button class="primary">Create project</button>
+  </form>
+</section>

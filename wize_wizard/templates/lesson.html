@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block heading %}{{ lesson.title }}{% endblock %}
+{% block content %}
+<section class="lesson-orientation panel accent">
+  <span class="kicker">THE QUESTION THIS LESSON HELPS YOU ANSWER</span>
+  <h2>{{ lesson.question }}</h2>
+  <p class="lead">{{ lesson.why }}</p>
+  <div class="actions"><a class="primary" href="{{ url_for(lesson.tool_endpoint) }}">Try the live tool: {{ lesson.tool_label }} →</a><a class="ghost" href="{{ url_for('handbook') }}">Read the Strategy Handbook</a></div>
+</section>
+<div class="lesson-layout">
+<article>
+  <section class="panel">
+    <span class="kicker">PLAIN ENGLISH FIRST</span>
+    <h2>{{ lesson.plain_name }}</h2>
+    <p>{{ lesson.concept }}</p>
+    {% if lesson.acronyms %}
+    <div class="term-grid">
+      {% for a in lesson.acronyms %}<div class="term-card"><b>{{ a.long }}</b><span>{{ a.short }}</span><p>When Wize uses <strong>{{ a.short }}</strong>, it means <strong>{{ a.long }}</strong>.</p></div>{% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  <section class="panel"><span class="kicker">WHAT TO DO — IN ORDER</span><ol class="steps">{% for s in lesson.process %}<li><span>{{loop.index}}</span><p>{{s}}</p></li>{% endfor %}</ol></section>
+  <section class="panel"><span class="kicker">MODEL / FORMULA</span><div class="formula">{{lesson.formula}}</div><h3>Worked example</h3><p>{{lesson.example}}</p></section>
+  <section class="panel"><span class="kicker">WHEN TO USE IT</span><p>{{lesson.use_when}}</p></section>
+  <section class="panel warning"><span class="kicker">WHAT THIS DOES NOT PROVE</span><p>{{lesson.limitations}}</p></section>
+  <section class="panel action-panel"><span class="kicker">TURN LEARNING INTO ACTION</span><h2>Do not stop at the lesson.</h2><p>Use the live tool, decide what the result means for your real project, then turn the conclusion into a complete <b>I need to ___ so that I can ___</b> statement. The concrete Need becomes a Goal and should be PERT-assessed before execution.</p><a class="primary" href="{{ url_for(lesson.tool_endpoint) }}">{{ lesson.tool_label }} →</a></section>
+</article>
+<aside>
+  <div class="panel sticky">
+    <span class="kicker">ANIMATED EXAMPLE</span>
+    {% if video_exists %}
+      <video class="lesson-video" controls preload="metadata"><source src="{{url_for('static',filename='videos/'+video_name)}}" type="video/mp4">Your browser cannot play this animation.</video>
+      <p class="small">Rendered with the bundled Manim scene: <code>{{lesson.animation_scene}}</code>.</p>
+    {% else %}
+      <div class="browser-demo" data-demo="{{lesson.demo}}" aria-label="Interactive animated example">
+        <div class="demo-stage"><div class="demo-message">Press Play to walk through the example.</div><div class="demo-visual"></div></div>
+        <div class="demo-controls"><button type="button" class="primary demo-play">▶ Play example</button><button type="button" class="ghost demo-reset">Reset</button></div>
+      </div>
+      <p class="small"><b>Interactive fallback active.</b> Production builds can pre-render the same lesson with Manim scene <code>{{lesson.animation_scene}}</code> by running <code>python scripts/render_lessons.py</code>. The browser example works immediately even when Manim is not installed on the server.</p>
+    {% endif %}
+    <hr>
+    <span class="kicker">CHECK YOUR UNDERSTANDING</span>
+    <form method="post"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><p><b>{{lesson.quiz.q}}</b></p>{% for c in lesson.quiz.choices %}<label class="choice"><input type="radio" name="choice" value="{{loop.index0}}" required> {{c}}</label>{% endfor %}<button class="primary full">Check answer</button></form>
+    {% if result is not none %}<div class="quiz-result {{'success' if result==100 else 'danger'}}">{{'Correct — lesson complete.' if result==100 else 'Not yet. Review the plain-English meaning and worked example, then try again.'}}</div>{% endif %}
+  </div>
+</aside>
+</div>
+<script src="{{url_for('static',filename='js/lesson_demo.js')}}" defer></script>
+{% endblock %}

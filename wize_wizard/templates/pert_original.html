@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block heading %}PERT Time & Stress Planner{% endblock %}
+{% block content %}
+{% include '_project_bar.html' %}
+
+<section class="focus-layout">
+  <form class="panel calm-panel" method="post">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <input type="hidden" name="project_id" value="{{project_id or ''}}">
+    <span class="kicker">STEP 1 · ESTIMATE THE WORK</span>
+    <h2>Give Wize a fast case and a slow case.</h2>
+    <p class="lead-small"><b>Program Evaluation and Review Technique (PERT)</b> helps when one time estimate feels too certain. Wize uses your range to show a likely planning time and how aggressive different deadlines would feel.</p>
+    <label>Need Goal<select name="task_id"><option value="">Standalone estimate</option>{% for g in goal_tasks %}<option value="{{g.id}}">{{g.category}} — {{g.title}}</option>{% endfor %}</select></label>
+    <label>Standalone task name<input name="title" placeholder="Only needed if no Goal is selected"></label>
+    <div class="input-pair"><label>Time unit<select name="unit"><option>minute</option><option selected>hour</option><option>day</option><option>week</option><option>month</option></select></label><label>Severity<select name="severity"><option value="1">1 · Minimal</option><option value="2">2 · Low</option><option value="3" selected>3 · Moderate</option><option value="4">4 · High</option><option value="5">5 · Critical</option></select></label></div>
+    <label>Best case <span class="field-help">If everything goes unusually well</span><input name="best" type="number" step="any" min="0" required placeholder="Example: 20"></label>
+    <label>Worst case <span class="field-help">If the work goes poorly but is still realistic</span><input name="worst" type="number" step="any" min="0" placeholder="Leave blank and Wize uses Best × 2"></label>
+    <button class="primary">Explain my time range</button>
+  </form>
+
+  <aside class="explain-strip">
+    <span class="kicker">WHAT WIZE DOES</span>
+    <h3>You do not need to know the math.</h3>
+    <p>Wize calculates the middle estimate automatically, weights the middle more heavily, and measures how spread out your estimate is.</p>
+    <p class="small"><b>Expected time:</b> a weighted center for planning.<br><b>Standard deviation (σ):</b> how much uncertainty surrounds that center.</p>
+    <a class="ghost" href="{{url_for('lesson',slug='wize-pert')}}">Watch the animated PERT lesson</a>
+  </aside>
+</section>
+
+{% if result %}
+<section class="panel accent spacious-result">
+  <span class="kicker">STEP 2 · YOUR PLAIN-ENGLISH RESULT</span>
+  <h2>{{result.title}}</h2>
+  <p class="big-explanation">A sensible center for planning is about <b>{{'%.2f'|format(result.r.expected)}} {{result.unit}}{{'' if result.r.expected==1 else 's'}}</b>. Your estimate has a spread of about <b>{{'%.2f'|format(result.r.sigma)}} {{result.unit}}{{'' if result.r.sigma==1 else 's'}}</b> around that center.</p>
+
+  <div class="sigma-guide">
+    <div><b>68% range · ±1 standard deviation</b><strong>{{'%.2f'|format(result.r.range_68[0])}} → {{'%.2f'|format(result.r.range_68[1])}} {{result.unit}}s</strong><p>About 68% of outcomes are expected to fall inside this band. In plain English: this is the normal uncertainty zone around your plan.</p></div>
+    <div><b>95% range · ±2 standard deviations</b><strong>{{'%.2f'|format(result.r.range_95[0])}} → {{'%.2f'|format(result.r.range_95[1])}} {{result.unit}}s</strong><p>About 95% of outcomes are expected inside this wider band. This is the safer range when missing the plan would matter.</p></div>
+    <div><b>99.7% range · ±3 standard deviations</b><strong>{{'%.2f'|format(result.r.range_997[0])}} → {{'%.2f'|format(result.r.range_997[1])}} {{result.unit}}s</strong><p>Nearly all modeled outcomes fall inside this very wide band. Treat it as an extreme planning envelope, not a promise.</p></div>
+  </div>
+  <div class="simple-note"><b>Important:</b> 68%, 95%, and 99.7% describe <em>two-sided ranges around the expected time</em>. They are not the same thing as saying there is a 95% chance of finishing by the upper number. Wize keeps those ideas separate so the statistics stay understandable.</div>
+
+  <div class="stress-story">
+    <div class="stress-card danger-soft"><span>Very aggressive / high stress</span><strong>{{'%.2f'|format(result.r.very_aggressive_2)}} {{result.unit}}{{'' if result.r.very_aggressive_2==1 else 's'}}</strong><p>About a 2% completion chance under the approximation. Treat this as an exceptional push target, not a normal commitment.</p></div>
+    <div class="stress-card warn-soft"><span>Aggressive</span><strong>{{'%.2f'|format(result.r.aggressive_16)}} {{result.unit}}{{'' if result.r.aggressive_16==1 else 's'}}</strong><p>About a 16% completion chance. This deadline is possible, but it leaves very little room for ordinary problems.</p></div>
+    <div class="stress-card safe-soft"><span>Low-stress Wize maximum</span><strong>{{'%.2f'|format(result.r.low_stress)}} {{result.unit}}{{'' if result.r.low_stress==1 else 's'}}</strong><p>The original Wize outer allowance: Worst Case plus three σ. Use it as a large planning cushion, not as a statistical 99.7% promise.</p></div>
+  </div>
+
+  <details class="quiet-details">
+    <summary>Show the original Wize math and ranges</summary>
+    <div class="detail-body">
+      <p><b>Best:</b> {{'%.2f'|format(result.o)}} · <b>Most likely:</b> {{'%.2f'|format(result.m)}} · <b>Worst:</b> {{'%.2f'|format(result.p)}} · <b>Expected:</b> {{'%.2f'|format(result.r.expected)}} · <b>σ:</b> {{'%.2f'|format(result.r.sigma)}} {% if result.derived %}· Worst was automatically set to Best × 2{% endif %}</p>
+      <p><b>68% mean-centered reference:</b> {{'%.2f'|format(result.r.range_68[0])}} → {{'%.2f'|format(result.r.range_68[1])}}. <b>95% reference:</b> {{'%.2f'|format(result.r.range_95[0])}} → {{'%.2f'|format(result.r.range_95[1])}}. <b>99.7% reference:</b> {{'%.2f'|format(result.r.range_997[0])}} → {{'%.2f'|format(result.r.range_997[1])}}.</p>
+      <p><b>Original Wize high-stress boundary:</b> {{'%.2f'|format(result.r.high_stress)}}. <b>Original Wize low-stress/max boundary:</b> {{'%.2f'|format(result.r.low_stress)}}.</p>
+      <p>{{result.r.confidence_sentence}}</p>
+    </div>
+  </details>
+  <div class="next-action-line"><b>What to do next:</b> use the expected time as your center, the ±1σ range for normal uncertainty, ±2σ for a safer planning envelope, and ±3σ only when you need a very large cushion. Then move the Goal into Tasks.</div>
+</section>
+{% endif %}
+
+<section class="panel calm-panel">
+  <span class="kicker">SAVED ESTIMATES</span>
+  <h2>PERT history</h2>
+  <div class="history-list">
+  {% for r in history %}
+    <details class="history-item">
+      <summary><b>{{r.title}}</b><span>Expected {{'%.2f'|format(r.expected)}} {{r.unit}} · Best {{'%.2f'|format(r.optimistic)}} · Worst {{'%.2f'|format(r.pessimistic)}}</span></summary>
+      <p>Most likely {{'%.2f'|format(r.likely)}} · σ {{'%.2f'|format(r.sigma)}} · Original Wize stress allowance {{'%.2f'|format(r.high_stress)}} → {{'%.2f'|format(r.low_stress)}} {{r.unit}}.</p>
+    </details>
+  {% else %}<p>No PERT records yet.</p>{% endfor %}
+  </div>
+</section>
+{% endblock %}
