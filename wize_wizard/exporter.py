@@ -5,11 +5,21 @@ from .db import connect
 
 TABLES = ["projects","strategy","clay_tablets","tasks","pert","communications","journal"]
 
+QUERIES = {
+    "projects": "SELECT * FROM projects WHERE id=?",
+    "strategy": "SELECT * FROM strategy WHERE project_id=?",
+    "clay_tablets": "SELECT * FROM clay_tablets WHERE project_id=?",
+    "tasks": "SELECT * FROM tasks WHERE project_id=?",
+    "pert": "SELECT * FROM pert WHERE project_id=?",
+    "communications": "SELECT * FROM communications WHERE project_id=?",
+    "journal": "SELECT * FROM journal WHERE project_id=?",
+}
+
 def export_project(project_id: int, out_dir: Path) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     con = connect(); payload = {}
     for table in TABLES:
-        rows = con.execute("SELECT * FROM projects WHERE id=?", (project_id,)).fetchall() if table == "projects" else con.execute(f"SELECT * FROM {table} WHERE project_id=?", (project_id,)).fetchall()
+        rows = con.execute(QUERIES[table], (project_id,)).fetchall()
         data = [dict(r) for r in rows]; payload[table] = data
         if data:
             with (out_dir / f"{table}.csv").open("w", newline="", encoding="utf-8") as f:

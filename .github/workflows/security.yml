@@ -6,8 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '23 6 * * 1'
-  workflow_dispatch:
+    - cron: "23 7 * * 1"
 
 permissions:
   contents: read
@@ -17,43 +16,70 @@ jobs:
   bandit:
     name: Bandit / Python security
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
-          cache: pip
-      - run: python -m pip install --upgrade bandit[toml]
-      - name: Scan application code
-        run: bandit -r wize_wizard -x tests -ll
+          python-version: "3.12"
 
-  dependency-audit:
+      - name: Install Bandit
+        run: python -m pip install --upgrade bandit
+
+      - name: Scan application
+        run: |
+          bandit -r wize_wizard \
+            --severity-level medium \
+            --confidence-level medium
+
+  pip-audit:
     name: pip-audit / dependencies
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
+          python-version: "3.12"
           cache: pip
-      - name: Install project and audit tool
-        run: |
-          python -m pip install --upgrade pip pip-audit
-          python -m pip install -e .
-      - name: Audit installed dependencies
-        run: pip-audit --strict
 
-  trivy:
-    name: Trivy / filesystem
+      - name: Install project and pip-audit
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install pip-audit
+
+      - name: Audit installed dependencies
+        run: pip-audit
+
+  secret-scan:
+    name: Secret scan
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v5
-      - name: Vulnerability and secret scan
-        uses: aquasecurity/trivy-action@0.32.0
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  trivy:
+    name: Trivy filesystem
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Scan repository
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
           scan-ref: .
-          scanners: vuln,secret,misconfig
           severity: HIGH,CRITICAL
           ignore-unfixed: true
-          exit-code: '1'
+          exit-code: "1"

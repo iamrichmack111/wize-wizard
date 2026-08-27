@@ -579,7 +579,7 @@ def main():
     app=create_app()
     host=os.environ.get("WIZE_HOST","127.0.0.1")
     port=int(os.environ.get("WIZE_PORT","8080"))
-    if os.environ.get("WIZE_DEV","0")=="1": app.run(host=host,port=port,debug=True)
+    if os.environ.get("WIZE_DEV","0")=="1": app.run(host=host,port=port,debug=False)
     else:
         from waitress import serve
         serve(app,host=host,port=port,threads=int(os.environ.get("WIZE_THREADS","6")))
