@@ -1,8 +1,8 @@
 # Wize Wizard Playwright QA Report
 
 - URL: `https://wizard.richmackos.com`
-- Passed: **19**
-- Warnings: **2**
+- Passed: **21**
+- Warnings: **0**
 - Failed: **0**
 
 ## Results
@@ -22,14 +22,14 @@
 | /risk | **PASS** | HTTP 200; Basic UI checks passed | [View](10-risk.png) |
 | /handbook | **PASS** | HTTP 200; Basic UI checks passed | [View](11-handbook.png) |
 | ▥ Final Project Plan | **PASS** | HTTP 200; Basic UI checks passed | [View](12-final-project-plan.png) |
-| /admin/users | **WARN** | HTTP 200; form-labels: 1 potentially unlabeled controls | [View](13-admin-users.png) |
+| /admin/users | **PASS** | HTTP 200; Basic UI checks passed | [View](13-admin-users.png) |
 | WIZE WIZARD | **PASS** | HTTP 200; Basic UI checks passed | [View](14-wize-wizard.png) |
 | ✓ Tasks / Burndown | **PASS** | HTTP 200; Basic UI checks passed | [View](15-tasks-burndown.png) |
 | ▤ Clay Tablets | **PASS** | HTTP 200; Basic UI checks passed | [View](16-clay-tablets.png) |
 | ✎ Journal | **PASS** | HTTP 200; Basic UI checks passed | [View](17-journal.png) |
 | /change-password | **PASS** | HTTP 200; Basic UI checks passed | [View](18-change-password.png) |
 | View D2 source | **PASS** | HTTP 200; D2 source accessible |  |
-| Mobile layout | **WARN** | Horizontal overflow detected | [View](90-mobile-home.png) |
+| Mobile layout | **PASS** | No page-level horizontal overflow | [View](90-mobile-home.png) |
 
 ## README / Wiki Screenshot Candidates
 

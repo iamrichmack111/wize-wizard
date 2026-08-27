@@ -79,8 +79,8 @@
   },
   {
     "name": "/admin/users",
-    "status": "WARN",
-    "detail": "HTTP 200; form-labels: 1 potentially unlabeled controls",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
     "screenshot": "docs/screenshots/qa/13-admin-users.png"
   },
   {
@@ -121,8 +121,8 @@
   },
   {
     "name": "Mobile layout",
-    "status": "WARN",
-    "detail": "Horizontal overflow detected",
+    "status": "PASS",
+    "detail": "No page-level horizontal overflow",
     "screenshot": "docs/screenshots/qa/90-mobile-home.png"
   }
 ]
