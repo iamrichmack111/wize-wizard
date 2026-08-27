@@ -1,22 +1,12 @@
 from __future__ import annotations
 from dataclasses import dataclass
-<<<<<<< HEAD
-from math import ceil, sqrt
-=======
 from math import ceil, sqrt, floor
 from statistics import NormalDist
->>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
 
 LAFLEY = [
     "What is Winning?",
     "Where Will I Play?",
     "What Tools Do I Need?",
-<<<<<<< HEAD
-    "What Skills Do I Need?",
-    "What Management Systems Do I Need?",
-]
-LEVELS = ["Initial Need", "Want", "Wish", "Dream"]
-=======
     "What Management System Do I Need?",
     "What Skills Do I Need?",
 ]
@@ -24,7 +14,6 @@ LEVELS = ["Initial Need", "Want", "Wish", "Dream"]
 # A concrete Need is the goal; repeated strategic Why passes expand it into
 # increasingly aspirational Wish, Dream, and Fantasy statements.
 LEVELS = ["Need", "Wish", "Dream", "Fantasy"]
->>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
 
 @dataclass
 class PertResult:
@@ -34,30 +23,11 @@ class PertResult:
     high_stress: float
     mode: str
     confidence_sentence: str
-<<<<<<< HEAD
-
-    # These ranges are Wize Wizard planning envelopes, not mean-centered
-    # confidence intervals. They expand outward from the entered Best/Worst
-    # boundaries, with the lower bound clamped at zero.
-=======
->>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
     optimistic: float = 0.0
     pessimistic: float = 0.0
 
     @property
     def range_68(self) -> tuple[float, float]:
-<<<<<<< HEAD
-        return (max(0.0, self.optimistic - self.sigma), self.pessimistic + self.sigma)
-
-    @property
-    def range_95(self) -> tuple[float, float]:
-        return (max(0.0, self.optimistic - 2*self.sigma), self.pessimistic + 2*self.sigma)
-
-    @property
-    def range_997(self) -> tuple[float, float]:
-        return (max(0.0, self.optimistic - 3*self.sigma), self.pessimistic + 3*self.sigma)
-
-=======
         return (max(0.0, self.expected - self.sigma), self.expected + self.sigma)
 
     @property
@@ -92,7 +62,6 @@ class PertResult:
     @property
     def very_aggressive_2(self) -> float:
         return max(0.0, self.expected - 2*self.sigma)
->>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
 
 def confidence_summary(o: float, m: float, p: float, expected: float, sigma: float) -> str:
     base = max(expected, 1e-9)
@@ -164,26 +133,6 @@ def suggest_group_size(n: int, max_group: int = 6) -> int:
 
 
 def communications_report(n: int) -> dict[str, float | int | str]:
-<<<<<<< HEAD
-    raw = channels(n)
-    g = suggest_group_size(n)
-    groups = max(1, ceil(n / g))
-    sizes = [min(g, n - i*g) for i in range(groups)]
-    internal = sum(channels(s) for s in sizes)
-    lead_channels = channels(groups) if groups > 1 else 0
-    structured = internal + lead_channels
-    reduction = max(0, raw - structured)
-    reduction_pct = (reduction / raw * 100.0) if raw else 0.0
-    sentence = (
-        f"With {n} people, an unstructured all-to-all network creates {raw} possible communication lines. "
-        f"Splitting the team into {groups} group(s) of about {g} people yields approximately {internal} internal lines plus "
-        f"{lead_channels} lead-to-lead lines, or {structured} structured lines total, reducing potential communication load by "
-        f"{reduction} lines ({reduction_pct:.1f}%)."
-    )
-    return {"people": n, "channels": raw, "group_size": g, "groups": groups, "internal": internal,
-            "lead_channels": lead_channels, "structured": structured, "reduction": reduction,
-            "reduction_pct": reduction_pct, "sentence": sentence}
-=======
     """Build a deliberately simple managed communication structure.
 
     Wize keeps some *pairwise stability* instead of turning every group into a
@@ -272,4 +221,3 @@ def communications_report(n: int) -> dict[str, float | int | str]:
         "avg_span": avg_span, "sentence": sentence,
     }
 
->>>>>>> 034f4b1 (Harden Wize Wizard production baseline)
