@@ -549,7 +549,29 @@ def bootstrap_admin():
         PRIMARY KEY(user_id, lesson_slug), FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE)""")
     exists=con.execute("SELECT 1 FROM users WHERE username='admin'").fetchone()
     if not exists:
-        con.execute("INSERT INTO users(username,password_hash,role,must_change_password) VALUES(?,?,?,1)",("admin",generate_password_hash("admin"),"admin"))
+        import os
+
+        admin_username = os.environ.get("WIZE_ADMIN_USERNAME", "").strip()
+        admin_password = os.environ.get("WIZE_ADMIN_PASSWORD", "")
+
+        if not admin_username or not admin_password:
+            raise RuntimeError(
+                "No users exist and WIZE_ADMIN_USERNAME/WIZE_ADMIN_PASSWORD are not configured"
+            )
+
+        if len(admin_password) < 12:
+            raise RuntimeError(
+                "WIZE_ADMIN_PASSWORD must be at least 12 characters"
+            )
+
+        con.execute(
+            "INSERT INTO users(username,password_hash,role,must_change_password) VALUES(?,?,?,0)",
+            (
+                admin_username,
+                generate_password_hash(admin_password),
+                "admin",
+            ),
+        )
     con.commit(); con.close()
 
 

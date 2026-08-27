@@ -19,3 +19,11 @@ backups/
 manim_cache/
 media/
 *.pyc
+
+# Production secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
