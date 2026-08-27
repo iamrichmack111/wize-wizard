@@ -1,0 +1,37 @@
+direction: right
+project: "🎯 PROJECT\nGoal + Description" { style: { fill: "#10231f"; stroke: "#5eead4"; stroke-width: 2; shadow: true; border-radius: 16 } }
+questions: "🧭 FIVE STRATEGIC QUESTIONS" {
+ style: { fill: "#101827"; stroke: "#38bdf8"; stroke-width: 2; shadow: true; border-radius: 16 }
+ win: "🏆 What is Winning?"
+ play: "🗺️ Where Will I Play?"
+ tools: "🧰 What Tools Do I Need?"
+ management: "⚙️ What Management System?"
+ skills: "🎓 What Skills Do I Need?"
+}
+need: "✦ WIZE STATEMENT\nI need to ___\nso that I can ___" { style: { fill: "#211a35"; stroke: "#c084fc"; stroke-width: 2; shadow: true; border-radius: 16 } }
+why: "🧠 PURPOSE LADDER" {
+ style: { fill: "#211a35"; stroke: "#c084fc"; stroke-width: 2; shadow: true; border-radius: 16 }
+ n: "🎯 NEED"
+ w: "✨ WISH"
+ d: "🌠 DREAM"
+ f: "🌌 FANTASY"
+ n -> w: "WHY?"
+ w -> d: "WHY?"
+ d -> f: "WHY?"
+}
+output: "🚀 EXECUTION" {
+ style: { fill: "#10231f"; stroke: "#5eead4"; stroke-width: 2; shadow: true; border-radius: 16 }
+ tasks: "✅ Tasks"
+ pert: "📐 PERT"
+ team: "👥 Team"
+ evidence: "🏺 Evidence"
+ report: "📋 Project Plan"
+}
+project -> questions -> need -> why.n
+why.n -> output.tasks
+why.n -> output.pert
+why -> output.evidence
+output.tasks -> output.team
+output.pert -> output.report
+output.team -> output.report
+output.evidence -> output.report

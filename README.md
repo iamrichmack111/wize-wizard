@@ -1,1169 +1,525 @@
-# 🧙 Wize Wizard
+# ✦ Wize Wizard
 
-> **Strategy • PERT • Execution**
+### Strategy · Mathematics · Execution · Learning
 
-**Wize Wizard** is a terminal-based strategic planning, decision-analysis, and execution system built with Python, Textual, and SQLite.
+[![CI](https://github.com/iamrichmack111/wize-wizard/actions/workflows/ci.yml/badge.svg)](https://github.com/iamrichmack111/wize-wizard/actions/workflows/ci.yml)
+[![Security Hardening](https://github.com/iamrichmack111/wize-wizard/actions/workflows/security.yml/badge.svg)](https://github.com/iamrichmack111/wize-wizard/actions/workflows/security.yml)
+[![CodeQL](https://github.com/iamrichmack111/wize-wizard/actions/workflows/codeql.yml/badge.svg)](https://github.com/iamrichmack111/wize-wizard/actions/workflows/codeql.yml)
+[![Deploy RichmackOS](https://github.com/iamrichmack111/wize-wizard/actions/workflows/deploy.yml/badge.svg)](https://github.com/iamrichmack111/wize-wizard/actions/workflows/deploy.yml)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.x-111827?logo=flask&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Production-2496ED?logo=docker&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Persistent-003B57?logo=sqlite&logoColor=white)
+![Bandit](https://img.shields.io/badge/Bandit-SAST-success)
+![pip-audit](https://img.shields.io/badge/pip--audit-Enabled-success)
+![Trivy](https://img.shields.io/badge/Trivy-Enabled-success)
+![Dependabot](https://img.shields.io/badge/Dependabot-Enabled-025E8C?logo=dependabot&logoColor=white)
 
-It combines structured strategic questioning, recursive Why analysis, PERT estimation, uncertainty ranges, stress-aware planning, communication-complexity analysis, task management, Clay Tablets, journaling, and project reporting inside a keyboard-friendly TUI.
+> **Wize Wizard turns uncertainty into an executable project plan.** It connects strategic reasoning, PERT mathematics, task execution, team communication design, evidence, learning, and reporting in one Flask-based workbench.
 
-The core idea is simple:
-
-> **Turn strategy into structured reasoning, structured reasoning into measurable tasks, and measurable tasks into execution.**
-
----
-
-## ✨ Features
-
-### 🧠 Structured Strategy
-
-Wize Wizard guides strategic planning through five core questions:
-
-1. 🏆 **What is Winning?**
-2. 🎯 **Where Will I Play?**
-3. 🛠️ **What Tools Do I Need?**
-4. 🧠 **What Skills Do I Need?**
-5. ⚙️ **What Management Systems Do I Need?**
-
-Every strategic statement follows a consistent grammar:
-
-```text
-As a ____________________________   [optional]
-
-I need to _______________________
-so that I can ___________________
-because _________________________   [optional]
-```
-
-This creates structured records instead of disconnected journal entries.
+<p align="center">
+  <img src="docs/screenshots/qa/14-wize-wizard.png" alt="Wize Wizard application" width="900">
+</p>
 
 ---
 
-## 🔍 Structured Why Analysis
+## ✦ Why Wize Wizard Exists
 
-Each strategy question automatically progresses through deeper levels of reasoning.
+A project can fail long before implementation: the goal may be vague, the reason for doing it may be unclear, estimates may hide uncertainty, team communication can become chaotic, and assumptions may never be recorded.
 
-The user does **not** manually choose the level.
-
-Wize Wizard manages the hierarchy internally:
+Wize Wizard makes those layers explicit.
 
 ```text
-Initial Need
-     ↓
-Want
-     ↓
-Wish
-     ↓
-Dream
+Learn
+  ↓
+Five Strategic Questions
+  ↓
+I need to ______ so that I can ______
+  ↓
+Need → Wish → Dream → Fantasy
+  ↓
+PERT / Stress Analysis
+  ↓
+Tasks + Burndown
+  ↓
+Communication Structure
+  ↓
+Market + Finance + Risk
+  ↓
+Clay Tablets + Journal
+  ↓
+Final Project Plan
+  ↓
+Execute → Learn → Reassess
 ```
 
-Every level still uses the same structured grammar:
+<p align="center">
+  <img src="docs/images/diagrams/project-lifecycle.png" alt="Wize Wizard project lifecycle" width="1000">
+</p>
+
+## 🧭 Five Strategic Questions
+
+Every project is examined through five questions:
+
+1. **What is Winning?**
+2. **Where Will I Play?**
+3. **What Tools Do I Need?**
+4. **What Management System Do I Need?**
+5. **What Skills Do I Need?**
+
+Answers use a deliberately concrete structure:
 
 ```text
-As a ___
-
-I need to ___
-so that I can ___
-because ___
+I need to ______________________
+so that I can __________________
 ```
 
-### Example
+That Need can become a task, receive a PERT estimate, accumulate evidence, and appear in the final plan.
+
+<p align="center">
+  <img src="docs/images/diagrams/strategy-engine.png" alt="Wize Wizard strategy engine" width="1000">
+</p>
+
+## 🧠 Connected Why Reasoning
+
+Wize Wizard separates the executable goal from progressively deeper purpose:
 
 ```text
-INITIAL NEED
-
-As a software engineer,
-
-I need to automate application deployment
-so that I can release software consistently
-because manual deployment introduces unnecessary variance.
-```
-
-Then:
-
-```text
-WANT
-
-I need to standardize the deployment pipeline
-so that I can make releases repeatable
-because repeatability reduces operational uncertainty.
-```
-
-Then:
-
-```text
-WISH
-
-I need to make infrastructure reproducible
-so that I can recover and scale systems predictably
-because infrastructure should behave as an engineered system.
-```
-
-Then:
-
-```text
-DREAM
-
-I need to create self-managing delivery systems
-so that I can focus on architecture instead of repetitive operations
-because automation should increase strategic leverage.
-```
-
----
-
-## 🏺 Clay Tablets
-
-Optional `because` statements are preserved in **Clay Tablets**.
-
-Clay Tablets act as a project's reasoning and principles ledger.
-
-A statement can therefore exist simultaneously as part of:
-
-```text
-Strategy
-   │
-   ├── Need / Want / Wish / Dream
-   │
-   ├── Task
-   │
-   └── Clay Tablet
-```
-
-This makes it possible to retain not only **what** was decided, but **why** it was decided.
-
----
-
-## ✅ Automatic Task Generation
-
-Strategic statements can automatically become project tasks.
-
-Additional manually created tasks follow the same Wize grammar:
-
-```text
-As a ____________________________
-
-I need to _______________________
-so that I can ___________________
-because _________________________
-```
-
-This creates traceability from strategy to execution.
-
-Conceptually:
-
-```text
-DREAM
-  │
-  ▼
-WISH
-  │
-  ▼
-WANT
-  │
-  ▼
-NEED
-  │
-  ▼
-TASK
-  │
-  ▼
-PERT
-  │
-  ▼
-EXECUTION
-```
-
----
-
-# 📐 PERT / Stress Analysis
-
-Wize Wizard includes PERT-based schedule estimation with an additional planning-envelope interpretation.
-
-The standard weighted PERT estimate is:
-
-```text
-Expected Time = (Best + 4 × Most Likely + Worst) / 6
-```
-
-Standard deviation is estimated as:
-
-```text
-σ = (Worst - Best) / 6
-```
-
----
-
-## ⏱️ Time Dimensions
-
-PERT estimates can use multiple units:
-
-```text
-Minutes
-Hours
-Days
-Weeks
-Months
-```
-
-This allows the same analysis model to work for small operational tasks or long strategic projects.
-
----
-
-## 📊 Best, Most Likely, and Pessimistic Estimates
-
-When both Best and Pessimistic estimates are supplied:
-
-```text
-Best Case = user supplied
-Worst Case = user supplied
-
-Most Likely = midpoint(Best, Worst)
-```
-
-Example:
-
-```text
-Best Case:       5 hours
-Pessimistic:    20 hours
-
-Most Likely:
-
-(5 + 20) / 2 = 12.5 hours
-```
-
-PERT then applies its weighted calculation:
-
-```text
-(5 + 4×12.5 + 20) / 6
-
-= 12.5 hours
-```
-
----
-
-## 🧮 Missing Pessimistic Estimate
-
-Sometimes only the Best Case is known.
-
-Wize Wizard can create a planning estimate using:
-
-```text
-Pessimistic = Best Case × 2
-```
-
-Then:
-
-```text
-Most Likely =
-(Best + Pessimistic) / 2
-```
-
-For example:
-
-```text
-Best Case = 10 hours
-
-Derived Pessimistic:
-10 × 2 = 20 hours
-
-Most Likely:
-(10 + 20) / 2 = 15 hours
-```
-
-⚠️ **Important:** A derived pessimistic estimate is a planning heuristic. It is not the same as collecting an independently estimated pessimistic value.
-
-Wize Wizard identifies derived estimates in its reports.
-
----
-
-# 📈 Sigma Planning Envelopes
-
-Wize Wizard reports three uncertainty levels based on the calculated PERT sigma:
-
-```text
-1σ ≈ 68%
-2σ ≈ 95%
-3σ ≈ 99.7%
-```
-
-The Wize planning model expands these ranges outward from the **Best and Worst boundaries**.
-
-### 1σ / ~68%
-
-```text
-Lower = Best - σ
-Upper = Worst + σ
-```
-
-### 2σ / ~95%
-
-```text
-Lower = Best - 2σ
-Upper = Worst + 2σ
-```
-
-### 3σ / ~99.7%
-
-```text
-Lower = Best - 3σ
-Upper = Worst + 3σ
-```
-
-Time cannot fall below zero, so:
-
-```text
-Lower = max(0, calculated lower value)
-```
-
----
-
-## 🧪 Example Sigma Analysis
-
-Suppose:
-
-```text
-Best Case = 5 hours
-Worst Case = 20 hours
-```
-
-Then:
-
-```text
-σ = (20 - 5) / 6
-
-σ = 2.5 hours
-```
-
-Wize Wizard produces:
-
-```text
-~68% / 1σ
-
-5 - 2.5 → 20 + 2.5
-
-2.5 → 22.5 hours
-```
-
-```text
-~95% / 2σ
-
-5 - 5 → 20 + 5
-
-0 → 25 hours
-```
-
-```text
-~99.7% / 3σ
-
-5 - 7.5 → 20 + 7.5
-
-0 → 27.5 hours
-```
-
-The lower boundary is clamped to zero:
-
-```text
-max(0, Best - nσ)
-```
-
----
-
-## 😌 Stress-Aware Planning
-
-Wize Wizard uses the estimate envelope as a schedule-pressure aid.
-
-A tighter schedule provides less temporal cushion.
-
-A larger upper allowance provides more schedule flexibility.
-
-Conceptually:
-
-```text
-AGGRESSIVE
+Need / Goal
     │
-    │  Greater schedule pressure
+   WHY?
     ▼
-
-Expected
+Wish / Why 1
     │
-    ├──── 1σ
+   WHY?
+    ▼
+Dream / Why 2
     │
-    ├──────── 2σ
-    │
-    └──────────── 3σ
-
-                     LOW-STRESS
-                     PLANNING EDGE
+   WHY?
+    ▼
+Fantasy / Why 3
 ```
 
-The 3σ upper boundary represents the largest displayed planning cushion:
+The **Need** remains concrete. Wish, Dream, and Fantasy explain why it matters.
+
+<p align="center">
+  <img src="docs/screenshots/qa/04-strategic-questions-whys.png" alt="Strategic Why chain" width="900">
+</p>
+
+## 📐 PERT + Stress-Aware Planning
+
+Wize Wizard uses three-point estimation:
+
+| Input | Meaning |
+|---|---|
+| **O** | Optimistic estimate |
+| **M** | Most likely estimate |
+| **P** | Pessimistic estimate |
+
+Expected duration:
 
 ```text
-Worst + 3σ
+E = (O + 4M + P) / 6
 ```
 
-This is a **Wize Wizard planning interpretation**, not a claim that a task is guaranteed to finish inside that interval.
-
----
-
-# 🎯 Estimate Severity
-
-Wize Wizard evaluates estimate uncertainty and recommends an appropriate estimation depth.
-
-Possible recommendations include:
+Standard deviation:
 
 ```text
-3-point estimation
+σ = (P - O) / 6
 ```
 
-or:
+Central normal-distribution intervals are approximately:
+
+| Range | Central interval |
+|---|---:|
+| ±1σ | 68% |
+| ±2σ | 95% |
+| ±3σ | 99.7% |
+
+These central intervals are not the same thing as one-sided finish-by probabilities.
+
+<p align="center">
+  <img src="docs/images/diagrams/pert-risk.png" alt="PERT and risk architecture" width="1000">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/qa/05-pert-stress.png" alt="PERT and stress analysis screen" width="900">
+</p>
+
+## 👥 Communication Complexity
+
+Unstructured communication channels for `n` people:
 
 ```text
-6-point estimation
+channels = n(n - 1) / 2
 ```
 
-Higher uncertainty, wider estimate spreads, or greater project severity can justify deeper estimation.
+Wize Wizard compares that raw complexity with a structured model containing managers/product leads, contributor groups, stable contributor buddy pairs, and a coordination layer for remainders.
 
-The goal is not simply to calculate a duration.
+<p align="center">
+  <img src="docs/images/diagrams/communications.png" alt="Communication planning architecture" width="1000">
+</p>
 
-The goal is to understand:
+<p align="center">
+  <img src="docs/screenshots/qa/06-communications.png" alt="Communications planning screen" width="900">
+</p>
+
+## ✅ Execution: Tasks + Burndown
+
+Strategy is not left as prose. Needs can feed execution tasks with priority, status, source level, and related reasoning.
+
+<p align="center">
+  <img src="docs/screenshots/qa/15-tasks-burndown.png" alt="Tasks and burndown" width="900">
+</p>
+
+## 🏺 Evidence: Clay Tablets + Journal
+
+Clay Tablets preserve assumptions and strategy-linked evidence. The journal records observations made during execution.
+
+<p align="center">
+  <img src="docs/screenshots/qa/16-clay-tablets.png" alt="Clay Tablets" width="900">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/qa/17-journal.png" alt="Project journal" width="900">
+</p>
+
+## 🎓 Learning System
+
+Wize Wizard includes lessons and an embedded Strategy Handbook so the user can learn the concepts used by the workbench instead of merely filling out forms.
+
+<p align="center">
+  <img src="docs/screenshots/qa/07-12-lessons.png" alt="Wize Wizard lessons" width="900">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/qa/11-handbook.png" alt="Strategy Handbook" width="900">
+</p>
+
+## 🔬 Analysis Labs
+
+The application includes dedicated workspaces for:
+
+- Market analysis
+- Finance analysis
+- Risk analysis
+
+<p align="center">
+  <img src="docs/screenshots/qa/08-market.png" alt="Market analysis" width="850">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/qa/09-finance.png" alt="Finance analysis" width="850">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/qa/10-risk.png" alt="Risk analysis" width="850">
+</p>
+
+## 📋 Final Project Plan
+
+The report consolidates the project's purpose, five Need goals, reasoning chains, estimates, tasks, communications, assumptions, journal evidence, analysis, and next actions.
+
+<p align="center">
+  <img src="docs/screenshots/qa/12-final-project-plan.png" alt="Final Wize Wizard Project Plan" width="900">
+</p>
+
+## 🏗️ Architecture
+
+Wize Wizard is a Flask application served by Waitress and packaged as a non-root Docker container. Production persists SQLite under `/data`, binds the backend to host loopback, and exposes it through Nginx/TLS.
+
+<p align="center">
+  <img src="docs/images/diagrams/system-architecture.png" alt="Wize Wizard system architecture" width="1050">
+</p>
+
+### Runtime path
 
 ```text
-Duration
-+
-Uncertainty
-+
-Schedule pressure
-+
-Planning cushion
+Browser
+  │ HTTPS
+  ▼
+wizard.richmackos.com
+  │
+  ▼
+Nginx + TLS
+  │ 127.0.0.1:5080
+  ▼
+Docker
+  │
+  ▼
+Waitress :8080
+  │
+  ▼
+Flask
+  ├── Authentication
+  ├── Strategy
+  ├── Why reasoning
+  ├── PERT
+  ├── Tasks
+  ├── Communications
+  ├── Learning
+  ├── Analysis labs
+  ├── Evidence
+  └── Reports
+        │
+        ▼
+   SQLite /data/wize.db
 ```
 
----
+### Data architecture
 
-# 📊 Reports / Charts
+<p align="center">
+  <img src="docs/images/diagrams/data-model.png" alt="Wize Wizard data model" width="1050">
+</p>
 
-PERT records are stored with their associated project.
+## 🔐 Security Architecture
 
-The Reports / Charts section can use those records to generate terminal-native project visualizations.
+Security is checked at source, dependency, runtime, container, and deployment layers.
 
-Examples include:
+<p align="center">
+  <img src="docs/images/diagrams/security-architecture.png" alt="Wize Wizard security architecture" width="1050">
+</p>
 
-### 📅 Stress-Aware Gantt View
+Controls include:
+
+- Werkzeug password hashing
+- no public default administrator password
+- environment-driven initial administrator bootstrap
+- `.env` excluded from source control
+- production `.env` restricted to mode `0600`
+- non-root Docker user, UID 10001
+- secure-cookie production configuration
+- loopback-only host binding
+- Nginx TLS termination
+- Bandit Python SAST
+- pip-audit dependency auditing
+- Trivy filesystem scanning
+- CodeQL semantic analysis
+- Dependabot dependency maintenance
+
+## 🚦 CI/CD
+
+<p align="center">
+  <img src="docs/images/diagrams/cicd-production.png" alt="Wize Wizard CI/CD architecture" width="1050">
+</p>
+
+The repository contains dedicated workflows for CI, Security Hardening, CodeQL, publishing, and RichmackOS deployment.
+
+Production verification checks:
 
 ```text
-Architecture          ▓▓▓▓▓▓░░░░
-Database              ▓▓▓▓▓▓▓▓░░░░
-Testing               ▓▓▓▓▓░░░░░
-Deployment            ▓▓▓░░░
+Docker container /healthz
+        ↓
+127.0.0.1:5080/healthz
+        ↓
+https://wizard.richmackos.com/healthz
 ```
 
-Where:
-
-```text
-▓ = expected duration
-░ = additional planning cushion
-```
-
----
-
-## 📦 Range Visualization
-
-PERT ranges can also be represented as:
-
-```text
-Best
- │
- ├──────── Most Likely
- │               │
- │               ├──────── Worst
- │
- └────────────────────────────── 1σ
- └────────────────────────────────── 2σ
- └────────────────────────────────────── 3σ
-```
-
-This provides a visual representation of increasing schedule uncertainty.
-
----
-
-# 👥 Communication Complexity
-
-Wize Wizard includes communication-channel analysis using:
-
-```text
-n(n - 1)
-────────
-   2
-```
-
-where `n` is the number of people who may communicate directly with one another.
-
----
-
-## 🧮 Example
-
-For a 20-person team:
-
-```text
-20 × 19
-───────
-   2
-
-= 190
-```
-
-That means there are potentially:
-
-```text
-190 communication channels
-```
-
-in a fully connected 20-person group.
-
----
-
-# 🧩 Team Decomposition
-
-Wize Wizard does more than display the raw communication count.
-
-It can suggest breaking a large group into smaller units.
-
-Example:
-
-```text
-20 people
-```
-
-might become:
-
-```text
-Team A — 5
-Team B — 5
-Team C — 5
-Team D — 5
-```
-
-Internal channels per five-person group:
-
-```text
-5 × 4 / 2 = 10
-```
-
-Four teams:
-
-```text
-10 × 4 = 40
-```
-
-If four team leads communicate:
-
-```text
-4 × 3 / 2 = 6
-```
-
-Structured total:
-
-```text
-40 + 6 = 46 channels
-```
-
-Compared with:
-
-```text
-Unstructured: 190
-Structured:    46
-```
-
-Potential reduction:
-
-```text
-144 communication relationships
-```
-
-or approximately:
-
-```text
-75.8%
-```
-
-This turns the communications formula into an organizational-design tool.
-
----
-
-# 📉 Task Burndown
-
-Wize Wizard tracks project execution through its task system.
-
-Tasks can progress through statuses such as:
-
-```text
-Backlog
-Ready
-Active
-Blocked
-Done
-```
-
-The project can then display terminal-native burndown information.
-
-Conceptually:
-
-```text
-Tasks
-
-30 │●
-27 │  ●
-24 │    ●
-21 │       ●
-18 │          ●
-15 │             ●
-12 │                 ●
- 9 │                    ●
- 6 │                       ●
- 3 │                          ●
- 0 └────────────────────────────
-```
-
----
-
-# 📓 Journal
-
-Wize Wizard includes a project journal for recording:
-
-- 🧠 Decisions
-- 📊 Estimation observations
-- ⚠️ Risks
-- 🛠️ Implementation notes
-- 🔄 Strategy changes
-- 📈 Outcomes
-- 🧪 Experiments
-- 📝 Retrospectives
-
-The long-term goal is to connect planning assumptions with actual results.
-
-For example:
-
-```text
-Estimated: 6 hours
-Actual:    9 hours
-Variance:  +3 hours
-```
-
-Historical information can eventually improve future estimation.
-
----
-
-# 🗂️ Project Mode
-
-Wize Wizard's major features are modular, but they can also operate together under a project.
-
-```text
-PROJECT
-│
-├── Strategy
-│
-├── Structured Whys
-│
-├── Wants
-│
-├── Wishes
-│
-├── Dreams
-│
-├── Tasks
-│
-├── PERT
-│
-├── Sigma Analysis
-│
-├── Communications
-│
-├── Reports / Charts
-│
-├── Clay Tablets
-└── Journal
-```
-
-Records share project associations so related information can be grouped, analyzed, and exported together.
-
----
-
-# 🧰 Modular Mode
-
-Individual tools can also be used independently.
-
-For example, you can use:
-
-```text
-PERT
-```
-
-without completing an entire strategic analysis.
-
-Likewise:
-
-```text
-Communications
-```
-
-can be used as a standalone organizational-complexity calculator.
-
-This gives Wize Wizard two operating philosophies:
-
-```text
-MODULAR MODE
-Use the tool you need.
-```
-
-and:
-
-```text
-PROJECT MODE
-Connect strategy → analysis → execution.
-```
-
----
-
-# 🏗️ Architecture
-
-Wize Wizard is intentionally lightweight.
-
-Core technologies:
-
-- 🐍 **Python**
-- 🖥️ **Textual**
-- 🗃️ **SQLite**
-- 📦 **Python packaging**
-- 🧪 **PERT analysis**
-- 📊 **Terminal-native reporting**
-
-The application does not require a large external database server.
-
-Project information is persisted locally using SQLite.
-
----
-
-# 🗄️ Database
-
-The local database is stored under the user's application-data directory.
-
-Typical location:
-
-```text
-~/.local/share/wize-wizard/wize.db
-```
-
-The database stores project-related information such as:
-
-```text
-Projects
-Strategies
-Why statements
-Clay Tablets
-Tasks
-PERT estimates
-Communication analyses
-Journal entries
-```
-
----
-
-# 📤 Export
-
-Wize Wizard is designed around portable project data.
-
-Supported or planned export formats include:
-
-```text
-JSON
-CSV
-Markdown
-```
-
-A project can therefore be represented outside the application for reporting, analysis, backup, or integration with other tools.
-
-A complete project structure may contain:
-
-```text
-project-export/
-├── project.md
-├── strategy.md
-├── tasks.csv
-├── pert.csv
-├── communications.csv
-├── clay-tablets.md
-├── journal.md
-└── project.json
-```
-
----
-
-# 🚀 Installation
-
-## Install from PyPI
-
-Once published:
-
-```bash
-pip install wize-wizard
-```
-
-Launch:
-
-```bash
-wize-wizard
-```
-
----
-
-## 🧪 Recommended Virtual Environment
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install wize-wizard
-wize-wizard
-```
-
----
-
-# 💻 Install From Source
-
-Clone the repository:
+## 🚀 Installation
+
+### Requirements
+
+- Python 3.10+
+- Git
+- pip
+- SQLite support
+- Optional: Docker + Docker Compose
+- Optional: D2 for architecture rendering
+- Optional: Manim for lesson animation rendering
+
+### Clone over SSH
 
 ```bash
 git clone git@github.com:iamrichmack111/wize-wizard.git
-```
-
-Enter the repository:
-
-```bash
 cd wize-wizard
 ```
 
-Create a virtual environment:
+### Create the environment
 
 ```bash
 python3 -m venv .venv
-```
-
-Activate it:
-
-```bash
 source .venv/bin/activate
-```
-
-Upgrade pip:
-
-```bash
 python -m pip install --upgrade pip
+python -m pip install -e '.[dev]'
 ```
 
-Install:
+### Bootstrap the first administrator
+
+There is no shipped `admin/admin` credential.
 
 ```bash
-pip install -e .
+export WIZE_ADMIN_USERNAME=admin
+read -rsp "Bootstrap password: " WIZE_ADMIN_PASSWORD
+echo
+export WIZE_ADMIN_PASSWORD
 ```
 
-Launch:
+The bootstrap password must contain at least 12 characters.
+
+### Start
+
+```bash
+wize-wizard-web
+```
+
+The package also exposes the terminal command:
 
 ```bash
 wize-wizard
 ```
 
----
+## 🐳 Docker Installation
 
-# 🧪 Development
-
-Install build and test tools:
-
-```bash
-python -m pip install -U build pytest twine
-```
-
-Compile-check:
-
-```bash
-python -m compileall -q .
-```
-
-Run tests:
-
-```bash
-pytest -q
-```
-
-Build distributions:
-
-```bash
-rm -rf dist build *.egg-info
-python -m build
-```
-
-Validate distributions:
-
-```bash
-python -m twine check dist/*
-```
-
----
-
-# 📦 Packaging
-
-A successful build should create:
+Create `.env`:
 
 ```text
-dist/
-├── wize_wizard-X.Y.Z-py3-none-any.whl
-└── wize_wizard-X.Y.Z.tar.gz
+WIZE_ADMIN_USERNAME=admin
+WIZE_ADMIN_PASSWORD=<strong-bootstrap-password>
 ```
 
-Test the wheel in a clean environment:
+Protect it:
 
 ```bash
-python3 -m venv /tmp/wize-test
-source /tmp/wize-test/bin/activate
-pip install dist/*.whl
-wize-wizard
+chmod 600 .env
 ```
 
----
+Start:
 
-# ⚙️ CI/CD
+```bash
+docker compose up --build
+```
 
-Wize Wizard supports automated publishing through GitHub Actions and PyPI Trusted Publishing.
-
-Example release flow:
+Production Compose uses:
 
 ```text
-Development
-     │
-     ▼
-Git Commit
-     │
-     ▼
-GitHub
-     │
-     ▼
-Version Tag
-     │
-     ▼
-GitHub Release
-     │
-     ▼
-GitHub Actions
-     │
-     ├── Build wheel
-     ├── Build source distribution
-     └── Publish
-             │
-             ▼
-            PyPI
+host 127.0.0.1:5080
+          ↓
+container :8080
+          ↓
+/data/wize.db
 ```
 
-The publishing workflow lives at:
+## 🧪 Development + Validation
+
+Tests:
+
+```bash
+python -m pytest -q
+```
+
+Compile:
+
+```bash
+python -m compileall -q wize_wizard
+```
+
+Bandit:
+
+```bash
+bandit -r wize_wizard -ll -ii
+```
+
+Dependency audit:
+
+```bash
+python -m pip_audit
+```
+
+Playwright QA:
+
+```bash
+./run_wizard_playwright_qa.sh
+```
+
+## 📸 QA Evidence
+
+The repository contains QA screenshots covering:
+
+- Login
+- Strategy
+- Strategic Why chains
+- PERT/stress
+- Communications
+- Lessons
+- Market
+- Finance
+- Risk
+- Handbook
+- Final Project Plan
+- User administration
+- Tasks/burndown
+- Clay Tablets
+- Journal
+- Password management
+- Mobile layout
+
+<p align="center">
+  <img src="docs/screenshots/qa/90-mobile-home.png" alt="Mobile Wize Wizard" width="420">
+</p>
+
+## 🗺️ Routes
+
+| Route | Purpose |
+|---|---|
+| `/healthz` | service health |
+| `/login` | authentication |
+| `/change-password` | password management |
+| `/` | project home |
+| `/handbook` | Strategy Handbook |
+| `/learn` | learning course |
+| `/strategy` | strategy workspace |
+| `/market` | market lab |
+| `/finance` | finance lab |
+| `/risk` | risk lab |
+| `/wizard` | guided workflow |
+| `/five-whys` | Five Whys |
+| `/pert` | PERT/stress |
+| `/tasks` | tasks/burndown |
+| `/communications` | team design |
+| `/clay-tablets` | evidence |
+| `/journal` | project journal |
+| `/reports` | final plan |
+| `/admin/users` | user administration |
+
+## 📁 Repository Layout
 
 ```text
-.github/workflows/publish.yml
+.github/workflows/       CI/CD + security automation
+animations/              lesson animation source
+docs/                    documentation
+docs/diagrams/           D2 architecture source
+docs/images/diagrams/    rendered architecture assets
+docs/screenshots/qa/     Playwright QA evidence
+docs/wiki/               GitHub Wiki source
+scripts/                 deployment + documentation automation
+tests/                   automated tests
+wize_wizard/             application package
 ```
 
----
+## 📚 Documentation
 
-# 🏷️ Release Workflow
+Detailed documentation is available in `docs/` and the GitHub Wiki:
 
-Example:
+- Getting Started
+- Installation
+- User Guide
+- Strategy and Five Questions
+- Why Ladder
+- PERT and Stress Analysis
+- Communications Planning
+- Tasks and Burndown
+- Clay Tablets and Journal
+- Learning System
+- Reports and Project Plan
+- Architecture
+- Security
+- CI/CD and Deployment
+- Troubleshooting
 
-```bash
-git add -A
-git commit -m "Release Wize Wizard"
-git push
-```
+## ✦ Design Philosophy
 
-Create a version tag:
+Wize Wizard is built around a simple idea:
 
-```bash
-git tag -a v0.5.1 -m "Wize Wizard v0.5.1"
-git push origin v0.5.1
-```
+> **Strategy should explain what must happen, why it matters, how uncertain execution is, who must coordinate, what evidence exists, and what happens next.**
 
-Create the GitHub Release:
-
-```bash
-gh release create v0.5.1 \
-  --title "Wize Wizard v0.5.1" \
-  --generate-notes
-```
-
-Monitor CI/CD:
-
-```bash
-gh run list --workflow=publish.yml --limit 5
-```
-
----
-
-# 🔬 Design Philosophy
-
-Wize Wizard treats planning as a connected system.
-
-A strategic decision should not disappear after it is written.
-
-Instead:
-
-```text
-IDENTITY
-   ↓
-STRATEGY
-   ↓
-WHY
-   ↓
-WANT
-   ↓
-WISH
-   ↓
-DREAM
-   ↓
-TASK
-   ↓
-ESTIMATE
-   ↓
-UNCERTAINTY
-   ↓
-SCHEDULE
-   ↓
-EXECUTION
-   ↓
-REFLECTION
-```
-
-The objective is **traceability**.
-
-At any point, a user should eventually be able to answer:
-
-> **Why am I doing this task?**
-
-and trace the answer back through the strategy that created it.
-
----
-
-# 🗺️ Roadmap
-
-Planned improvements include:
-
-- 🧙 Guided full-project Wizard
-- 📊 Richer terminal charts
-- 📅 Dependency-aware Gantt planning
-- 📉 Weighted burndown
-- 🧮 Historical estimation accuracy
-- 🔄 Estimated vs. actual duration analysis
-- 🎯 Strategy-to-task traceability
-- 🏺 Clay Tablet pattern discovery
-- 🔍 Project-wide search
-- 📑 Rich project reports
-- 📤 Expanded export formats
-- 🧠 Estimation-bias analysis
-- ⚠️ Risk and dependency modeling
-- 👥 More advanced team decomposition
-- ⌨️ Expanded keyboard-first navigation
-
----
-
-# ⚠️ Statistical Note
-
-PERT and sigma calculations are planning tools.
-
-The familiar:
-
-```text
-68%
-95%
-99.7%
-```
-
-values originate from the empirical rule for normally distributed observations.
-
-Wize Wizard's outward expansion from:
-
-```text
-Best - nσ
-```
-
-through:
-
-```text
-Worst + nσ
-```
-
-is a **Wize Wizard planning-envelope model** layered on top of the PERT estimates.
-
-It should therefore be interpreted as a decision-support and schedule-cushion framework rather than a guarantee that a task has exactly a stated probability of completing within a given boundary.
-
----
-
-# 🔐 Data Philosophy
-
-Wize Wizard is designed as a local-first terminal application.
-
-SQLite provides a lightweight persistence layer without requiring a separate database server.
-
-Users remain able to export their project information into portable formats.
-
----
-
-# 🤝 Contributing
-
-Issues, feature requests, testing, and pull requests are welcome.
-
-When contributing:
-
-```bash
-git checkout -b feature/my-feature
-```
-
-Make and test your changes:
-
-```bash
-python -m compileall -q .
-pytest -q
-```
-
-Commit:
-
-```bash
-git add -A
-git commit -m "Add my feature"
-```
-
-Push:
-
-```bash
-git push -u origin feature/my-feature
-```
-
-Then open a pull request.
-
----
-
-# 📜 License
-
-Check the repository's `LICENSE` file for the current licensing terms.
-
----
-
-# 🧙 Wize Wizard
-
-```text
-╔══════════════════════════════════════════════╗
-║                 WIZE WIZARD                  ║
-║                                              ║
-║        Strategy • PERT • Execution           ║
-║                                              ║
-║   I need to __________________________       ║
-║   so that I can ______________________       ║
-║   because ____________________________       ║
-║                                              ║
-║              Strategy → Action               ║
-╚══════════════════════════════════════════════╝
-```
-
-**Build the strategy. Understand the uncertainty. Execute the plan.**
-
+The application keeps those layers connected from the first Need through the final Project Plan.

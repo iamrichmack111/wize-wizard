@@ -1,0 +1,78 @@
+direction: down
+classes: {
+  glass: { style: { fill: "#101827"; stroke: "#38bdf8"; stroke-width: 2; border-radius: 18; shadow: true } }
+  mint: { style: { fill: "#10231f"; stroke: "#5eead4"; stroke-width: 2; border-radius: 14; shadow: true } }
+  violet: { style: { fill: "#211a35"; stroke: "#c084fc"; stroke-width: 2; border-radius: 14; shadow: true } }
+  gold: { style: { fill: "#2a220f"; stroke: "#fbbf24"; stroke-width: 2; border-radius: 14; shadow: true } }
+}
+users: "🌐  CLIENT LAYER" {
+ class: glass
+ desktop: "🖥️  Desktop Browser" { class: mint }
+ mobile: "📱  Mobile Browser" { class: mint }
+}
+edge: "☁️  RICHMACKOS EDGE" {
+ class: glass
+ dns: "🌎  wizard.richmackos.com\nDNS" { class: mint }
+ nginx: "🛡️  Nginx Reverse Proxy\nHTTPS :443" { class: gold }
+ tls: "🔐  TLS / Certbot" { class: gold }
+ dns -> nginx: HTTPS
+ tls -> nginx: certificate
+}
+prod: "🖧  PRODUCTION HOST" {
+ class: glass
+ docker: "🐳  DOCKER RUNTIME" {
+  class: violet
+  app: "✦  WIZE WIZARD\nPython 3.12 · UID 10001" {
+   class: glass
+   waitress: "🚦 Waitress\n:8080" { class: mint }
+   flask: "⚗️ Flask Application" { class: mint }
+   auth: "🔑 Authentication" { class: gold }
+   strategy: "🧭 Strategy Engine" { class: violet }
+   whys: "🧠 Why Engine" { class: violet }
+   pert: "📐 PERT / Stress" { class: violet }
+   tasks: "✅ Tasks / Burndown" { class: violet }
+   comms: "👥 Communications" { class: violet }
+   labs: "🔬 Analysis Labs" { class: violet }
+   learn: "🎓 Learning" { class: violet }
+   evidence: "🏺 Evidence / Journal" { class: violet }
+   reports: "📋 Project Plan" { class: violet }
+   waitress -> flask
+   flask -> auth
+   flask -> strategy
+   flask -> whys
+   flask -> pert
+   flask -> tasks
+   flask -> comms
+   flask -> labs
+   flask -> learn
+   flask -> evidence
+   flask -> reports
+  }
+ }
+ storage: "💾  PERSISTENT DATA" {
+  class: glass
+  volume: "📦 ./data → /data" { class: mint }
+  sqlite: "🗄️ SQLite\n/data/wize.db" { class: violet }
+  volume -> sqlite
+ }
+ env: "🔒 .env\nmode 0600" { class: gold }
+}
+users.desktop -> edge.dns
+users.mobile -> edge.dns
+edge.nginx -> prod.docker.app.waitress: "127.0.0.1:5080 → 8080"
+prod.env -> prod.docker.app.auth
+prod.docker.app.auth -> prod.storage.sqlite
+prod.docker.app.strategy -> prod.storage.sqlite
+prod.docker.app.pert -> prod.storage.sqlite
+prod.docker.app.tasks -> prod.storage.sqlite
+prod.docker.app.comms -> prod.storage.sqlite
+prod.docker.app.evidence -> prod.storage.sqlite
+prod.docker.app.reports -> prod.storage.sqlite
+health: "💚  THREE-LAYER HEALTH" {
+ class: glass
+ container: "🐳 Container /healthz" { class: mint }
+ backend: "🖧 Backend :5080/healthz" { class: mint }
+ public: "🌐 HTTPS /healthz" { class: mint }
+ container -> backend -> public
+}
+prod.docker.app.waitress -> health.container

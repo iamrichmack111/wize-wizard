@@ -1,0 +1,18 @@
+# Wize Wizard
+
+- [Home](Home)
+- [Installation](Installation)
+- [Architecture](Architecture)
+- [User-Guide](User-Guide)
+- [Strategy-and-Five-Questions](Strategy-and-Five-Questions)
+- [Why-Ladder](Why-Ladder)
+- [PERT-and-Stress-Analysis](PERT-and-Stress-Analysis)
+- [Communications-Planning](Communications-Planning)
+- [Tasks-and-Burndown](Tasks-and-Burndown)
+- [Clay-Tablets-and-Journal](Clay-Tablets-and-Journal)
+- [Learning-System](Learning-System)
+- [Reports-and-Project-Plan](Reports-and-Project-Plan)
+- [Security](Security)
+- [CI-CD-and-Deployment](CI-CD-and-Deployment)
+- [Troubleshooting](Troubleshooting)
+- [Getting-Started](Getting-Started)

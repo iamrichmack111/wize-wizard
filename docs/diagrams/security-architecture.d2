@@ -1,0 +1,31 @@
+direction: right
+source: "💻 SOURCE" {
+ git: "🌿 Git"
+ deps: "📦 Dependencies"
+}
+scan: "🛡️ SECURITY GATES" {
+ bandit: "🐍 Bandit\nSAST"
+ audit: "🔎 pip-audit\nCVE Audit"
+ trivy: "🛡️ Trivy\nFilesystem"
+ codeql: "🧠 CodeQL\nSemantic"
+ dependabot: "🤖 Dependabot\nUpdates"
+}
+runtime: "🔐 RUNTIME" {
+ hash: "🔑 Password Hashes"
+ bootstrap: "🌱 Secure Bootstrap"
+ env: "🔒 .env 0600"
+ user: "👤 Non-root UID 10001"
+ cookie: "🍪 Secure Cookie"
+}
+network: "🌐 DEPLOYMENT EDGE" {
+ ssh: "🔐 SSH"
+ loopback: "🖧 Loopback Backend"
+ nginx: "🛡️ Nginx"
+ tls: "🔒 TLS"
+ health: "💚 Health Checks"
+}
+source -> scan -> runtime -> network
+source.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 16 }
+scan.style: { fill: "#2a220f"; stroke: "#fbbf24"; shadow: true; border-radius: 16 }
+runtime.style: { fill: "#211a35"; stroke: "#c084fc"; shadow: true; border-radius: 16 }
+network.style: { fill: "#10231f"; stroke: "#5eead4"; shadow: true; border-radius: 16 }

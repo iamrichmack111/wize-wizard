@@ -1,0 +1,23 @@
+direction: right
+input: "⏱️ THREE-POINT INPUT" {
+ optimistic: "🟢 Optimistic (O)"
+ likely: "🔵 Most Likely (M)"
+ pessimistic: "🟠 Pessimistic (P)"
+}
+math: "📐 PERT ENGINE" {
+ expected: "🧮 Expected\n(O + 4M + P) / 6"
+ sigma: "σ Sigma\n(P - O) / 6"
+ severity: "⚠️ Severity"
+}
+range: "📊 CONFIDENCE ENVELOPES" {
+ one: "1σ · ~68%"
+ two: "2σ · ~95%"
+ three: "3σ · ~99.7%"
+}
+plan: "📋 SCHEDULE OUTPUT\nExpected duration\nStress range\nConfidence sentence"
+input -> math
+math -> range -> plan
+input.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 16 }
+math.style: { fill: "#211a35"; stroke: "#c084fc"; shadow: true; border-radius: 16 }
+range.style: { fill: "#10231f"; stroke: "#5eead4"; shadow: true; border-radius: 16 }
+plan.style: { fill: "#2a220f"; stroke: "#fbbf24"; shadow: true; border-radius: 16 }

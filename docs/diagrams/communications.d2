@@ -1,0 +1,26 @@
+direction: down
+people: "👥 TEAM SIZE n"
+raw: "🕸️ RAW CHANNELS\nn(n-1)/2"
+design: "🏗️ STRUCTURED TEAM" {
+ manager: "👔 Manager / Product Lead"
+ groups: "🧩 Contributor Groups"
+ pairs: "🤝 Stable Buddy Pairs"
+ remainder: "🔗 Coordination Layer"
+}
+metrics: "📊 METRICS" {
+ channels: "Structured Channels"
+ reduction: "Channel Reduction"
+ ratio: "Management Ratio"
+ span: "Average Span"
+}
+report: "📋 COMMUNICATION PLAN"
+people -> raw
+people -> design
+raw -> metrics.reduction
+design -> metrics
+metrics -> report
+people.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 16 }
+raw.style: { fill: "#2a220f"; stroke: "#fbbf24"; shadow: true; border-radius: 16 }
+design.style: { fill: "#211a35"; stroke: "#c084fc"; shadow: true; border-radius: 16 }
+metrics.style: { fill: "#10231f"; stroke: "#5eead4"; shadow: true; border-radius: 16 }
+report.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 16 }

@@ -1,0 +1,26 @@
+direction: right
+project: "📁 PROJECTS\nname · description"
+strategy: "🧭 STRATEGY\nneed · so_that · because"
+tasks: "✅ TASKS\npriority · status"
+pert: "📐 PERT\nO · M · P · σ"
+comms: "👥 COMMUNICATIONS\nchannels · groups"
+clay: "🏺 CLAY TABLETS\nevidence"
+journal: "📓 JOURNAL\nobservations"
+whys: "🧠 FIVE WHYS\nroot cause"
+users: "👤 USERS\nhash · role"
+lessons: "🎓 LESSON PROGRESS\ncompletion"
+project -> strategy
+project -> tasks
+project -> pert
+project -> comms
+project -> clay
+project -> journal
+project -> whys
+strategy -> tasks: source
+strategy -> clay: evidence
+tasks -> pert: estimate
+users -> lessons
+project.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 15 }
+strategy.style: { fill: "#211a35"; stroke: "#c084fc"; shadow: true; border-radius: 15 }
+tasks.style: { fill: "#10231f"; stroke: "#5eead4"; shadow: true; border-radius: 15 }
+pert.style: { fill: "#2a220f"; stroke: "#fbbf24"; shadow: true; border-radius: 15 }

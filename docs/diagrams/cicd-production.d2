@@ -1,0 +1,31 @@
+direction: right
+dev: "💻 DEVELOPER\nLocal Git"
+github: "🐙 GITHUB\nmain"
+ci: "🧪 CI\nCompile · Pytest · Docker"
+security: "🛡️ SECURITY\nBandit · pip-audit · Trivy"
+codeql: "🧠 CODEQL\nPython Analysis"
+deploy: "🚀 DEPLOY" {
+ pre: "✅ Pre-deploy"
+ ssh: "🔐 SSH / rsync"
+ docker: "🐳 Docker Compose"
+ h1: "💚 Container Health"
+ h2: "💚 Backend Health"
+ h3: "💚 HTTPS Health"
+ pre -> ssh -> docker -> h1 -> h2 -> h3
+}
+prod: "🌐 wizard.richmackos.com\nPRODUCTION"
+dev -> github
+github -> ci
+github -> security
+github -> codeql
+ci -> deploy.pre
+security -> deploy.pre
+codeql -> deploy.pre
+deploy.h3 -> prod
+dev.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 16 }
+github.style: { fill: "#211a35"; stroke: "#c084fc"; shadow: true; border-radius: 16 }
+ci.style: { fill: "#10231f"; stroke: "#5eead4"; shadow: true; border-radius: 16 }
+security.style: { fill: "#2a220f"; stroke: "#fbbf24"; shadow: true; border-radius: 16 }
+codeql.style: { fill: "#211a35"; stroke: "#c084fc"; shadow: true; border-radius: 16 }
+deploy.style: { fill: "#101827"; stroke: "#38bdf8"; shadow: true; border-radius: 16 }
+prod.style: { fill: "#10231f"; stroke: "#5eead4"; shadow: true; border-radius: 16 }
