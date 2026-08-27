@@ -17,7 +17,7 @@ jobs:
     name: Pre-deploy verification
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
@@ -44,7 +44,7 @@ jobs:
       DEPLOY_HOST: ${{ secrets.RICHMACKOS_HOST }}
       DEPLOY_USER: ${{ secrets.RICHMACKOS_USER }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Check deployment secrets
         id: secrets
