@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "wize-wizard"
-version = "0.7.7"
+version = "0.7.8"
 description = "Strategy learning, decision-analysis, and execution workbench"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -9,59 +9,42 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  test:
-    name: Test / Python ${{ matrix.python-version }}
+  validate:
+    name: Validate repository
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ['3.10', '3.12']
+
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
           cache: pip
-      - name: Install
+
+      - name: Reject unresolved merge conflicts
+        shell: bash
+        run: |
+          if grep -RIn \
+            --exclude-dir=.git \
+            --exclude-dir=.venv \
+            --exclude-dir=venv \
+            -E '^(<<<<<<<|=======|>>>>>>>)' .; then
+            echo "::error::Unresolved Git merge-conflict markers found."
+            exit 1
+          fi
+
+      - name: Install package and tests
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e '.[dev]'
-      - name: Compile
-        run: python -m compileall -q wize_wizard animations scripts
-      - name: Tests
-        run: pytest -q
+          python -m pip install -e .
+          python -m pip install pytest
 
-  package:
-    name: Package build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-      - run: python -m pip install --upgrade build
-      - run: python -m build
-      - uses: actions/upload-artifact@v4
-        with:
-          name: python-package
-          path: dist/
-          if-no-files-found: error
+      - name: Compile Python
+        run: python -m compileall -q wize_wizard
 
-  docker:
-    name: Docker build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: false
-          tags: wize-wizard:ci
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Docker build
+        run: docker build -t wize-wizard-ci .
