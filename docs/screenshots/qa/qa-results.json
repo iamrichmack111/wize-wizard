@@ -1,0 +1,128 @@
+[
+  {
+    "name": "Login page",
+    "status": "PASS",
+    "detail": "HTTP 200",
+    "screenshot": ""
+  },
+  {
+    "name": "Authentication",
+    "status": "PASS",
+    "detail": "Authenticated successfully. URL=https://wizard.richmackos.com/",
+    "screenshot": "docs/screenshots/qa/01-dashboard.png"
+  },
+  {
+    "name": "\u25c6 Strategy + Whys",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/02-strategy-whys.png"
+  },
+  {
+    "name": "/strategy",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/03-strategy.png"
+  },
+  {
+    "name": "? Strategic Questions + Whys",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/04-strategic-questions-whys.png"
+  },
+  {
+    "name": "\u25b3 PERT / Stress",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/05-pert-stress.png"
+  },
+  {
+    "name": "\u25ce Communications",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/06-communications.png"
+  },
+  {
+    "name": "12 lessons",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/07-12-lessons.png"
+  },
+  {
+    "name": "/market",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/08-market.png"
+  },
+  {
+    "name": "/finance",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/09-finance.png"
+  },
+  {
+    "name": "/risk",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/10-risk.png"
+  },
+  {
+    "name": "/handbook",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/11-handbook.png"
+  },
+  {
+    "name": "\u25a5 Final Project Plan",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/12-final-project-plan.png"
+  },
+  {
+    "name": "/admin/users",
+    "status": "WARN",
+    "detail": "HTTP 200; form-labels: 1 potentially unlabeled controls",
+    "screenshot": "docs/screenshots/qa/13-admin-users.png"
+  },
+  {
+    "name": "WIZE WIZARD",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/14-wize-wizard.png"
+  },
+  {
+    "name": "\u2713 Tasks / Burndown",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/15-tasks-burndown.png"
+  },
+  {
+    "name": "\u25a4 Clay Tablets",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/16-clay-tablets.png"
+  },
+  {
+    "name": "\u270e Journal",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/17-journal.png"
+  },
+  {
+    "name": "/change-password",
+    "status": "PASS",
+    "detail": "HTTP 200; Basic UI checks passed",
+    "screenshot": "docs/screenshots/qa/18-change-password.png"
+  },
+  {
+    "name": "View D2 source",
+    "status": "PASS",
+    "detail": "HTTP 200; D2 source accessible",
+    "screenshot": ""
+  },
+  {
+    "name": "Mobile layout",
+    "status": "WARN",
+    "detail": "Horizontal overflow detected",
+    "screenshot": "docs/screenshots/qa/90-mobile-home.png"
+  }
+]
